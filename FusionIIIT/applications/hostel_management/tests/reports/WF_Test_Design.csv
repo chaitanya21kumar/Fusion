@@ -1,0 +1,55 @@
+WF_ID,Title,Category,Scenario,Expected Final State
+HM-WF-101,Leave Request Workflow,End-to-End,"Student submits leave, Caretaker approves, attendance updated","Leave status='Approved', attendance marked 'On Leave' for leave period, Student notified"
+HM-WF-101,Leave Request Workflow,End-to-End,"Student submits leave, Caretaker rejects with reason","Leave status='Rejected', no attendance update, Student notified with rejection reason"
+HM-WF-101,Leave Request Workflow,Negative,Student without active hostel allocation submits leave,Leave request blocked at submission — BR-HM-101 violated
+HM-WF-101,Leave Request Workflow,Negative,Caretaker from different hostel tries to approve leave,Action denied — BR-HM-104 hostel mismatch
+HM-WF-102,Complaint Lifecycle Workflow,End-to-End,"Student submits maintenance complaint, Caretaker resolves it","Complaint status='Resolved', resolution remarks recorded, Student notified"
+HM-WF-102,Complaint Lifecycle Workflow,End-to-End,"Student submits security complaint, routed directly to Warden, Warden resolves","Complaint routed to Warden (BR-HM-107.a), status='Resolved', all parties notified"
+HM-WF-102,Complaint Lifecycle Workflow,End-to-End,"Caretaker cannot resolve, escalates to Warden, Warden resolves","Complaint status='Escalated' then 'Resolved', escalation reason recorded"
+HM-WF-102,Complaint Lifecycle Workflow,Negative,Caretaker tries to resolve complaint without resolution remarks,Update blocked — BR-HM-108 mandatory remarks required
+HM-WF-102,Complaint Lifecycle Workflow,Negative,Caretaker tries to escalate already-resolved complaint,Escalation blocked — BR-HM-109 only In-Progress complaints
+HM-WF-103,Bulk Room Allotment and Student Onboarding,End-to-End,"50 students request accommodation, Super Admin allots rooms within capacity","All 50 students allotted rooms, occupancy updated, all students and caretakers notified, status='Allotted'"
+HM-WF-103,Bulk Room Allotment and Student Onboarding,End-to-End,"Students submit requests during open window, Super Admin processes","Requests recorded during window, bulk allotment completed, assignment history recorded"
+HM-WF-103,Bulk Room Allotment and Student Onboarding,Negative,Super Admin attempts allotment exceeding room capacity,Allotment blocked — BR-HM-112 over-allocation prevented
+HM-WF-103,Bulk Room Allotment and Student Onboarding,Negative,Student submits accommodation request outside application window,Request rejected — BR-HM-111 window not open
+HM-WF-104,Room Change Request and Reassignment,End-to-End,"Student requests change, both Caretaker and Warden approve, room reassigned","Old room occupancy decremented, new room occupancy incremented, Student notified with new room details"
+HM-WF-104,Room Change Request and Reassignment,Negative,"Only Caretaker approves, Warden has not approved",Room change blocked — BR-HM-116 dual approval required
+HM-WF-104,Room Change Request and Reassignment,Negative,Student without active allocation requests room change,Request rejected — BR-HM-115 active allocation required
+HM-WF-104,Room Change Request and Reassignment,Negative,"Request violates hostel policy, Warden rejects","Room change rejected with policy reference, Student notified"
+HM-WF-105,"Fine Imposition, Tracking, and Monitoring",End-to-End,"Caretaker imposes valid fine, Student views it, Warden monitors — no escalation","Fine status='Unpaid', visible in Student and Warden dashboards, no escalation triggered"
+HM-WF-105,"Fine Imposition, Tracking, and Monitoring",End-to-End,"Student accumulates fines exceeding threshold, Warden flags for escalation","Student flagged as repeat offender per BR-HM-014, escalated for disciplinary review"
+HM-WF-105,"Fine Imposition, Tracking, and Monitoring",Negative,Caretaker imposes fine with amount=0,Fine creation blocked — BR-HM-013 positive amount required
+HM-WF-105,"Fine Imposition, Tracking, and Monitoring",Negative,Caretaker of Hostel A views fines for Hostel B,Access denied — BR-HM-012 role-based data scoping
+HM-WF-106,"Hostel Creation, Staffing, and Activation",End-to-End,"Super Admin creates hostel, assigns Warden and Caretaker, activates","Hostel status='Active', Warden and Caretaker have dashboard access, hostel available for room allocation"
+HM-WF-106,"Hostel Creation, Staffing, and Activation",Negative,Super Admin tries to activate hostel without assigning Warden,Activation blocked — BR-HM-019 Warden required
+HM-WF-106,"Hostel Creation, Staffing, and Activation",Negative,Super Admin tries to activate hostel without assigning Caretaker,Activation blocked — BR-HM-019 Caretaker required
+HM-WF-106,"Hostel Creation, Staffing, and Activation",Negative,Super Admin tries to deactivate hostel with occupied rooms,Deactivation blocked — BR-HM-008 occupied rooms exist
+HM-WF-107,Guard Shift Scheduling and Security Review,End-to-End,"Warden creates weekly shift schedule with adequate coverage, reviews security status","Shift schedule saved, guards notified, security dashboard shows full coverage"
+HM-WF-107,Guard Shift Scheduling and Security Review,Negative,Warden assigns same guard to overlapping shifts,Schedule blocked — BR-HM-016 shift conflict detected
+HM-WF-107,Guard Shift Scheduling and Security Review,Negative,Warden saves schedule with mandatory shifts unassigned,Schedule blocked — BR-HM-026 minimum coverage not met
+HM-WF-108,"Inventory Check, Issue Logging, and Resource Request",End-to-End,"Caretaker inspects, finds damaged items, logs discrepancy, submits replacement request","Discrepancy logged per BR-HM-021, inventory records updated, resource request created with status='Pending'"
+HM-WF-108,"Inventory Check, Issue Logging, and Resource Request",End-to-End,"Caretaker inspects inventory, finds no issues","Inspection completed, no discrepancies logged, workflow ends"
+HM-WF-108,"Inventory Check, Issue Logging, and Resource Request",Negative,Caretaker submits resource request with empty justification,Request blocked — BR-HM-030 justification required
+HM-WF-109,Room Vacation with Clearance Verification,End-to-End,"Student requests vacation, all clearance items satisfied, Caretaker approves, Super Admin finalizes","Room deallocated, status='Available', student history archived, clearance certificate issued, Student notified"
+HM-WF-109,Room Vacation with Clearance Verification,Negative,"Student has unpaid fines, clearance blocked","Clearance blocked per BR-HM-015, Student notified to pay fines"
+HM-WF-109,Room Vacation with Clearance Verification,Negative,Student has unreturned borrowed items,"Clearance blocked per BR-HM-015, items listed for return"
+HM-WF-109,Room Vacation with Clearance Verification,Negative,Super Admin tries to finalize vacation without clearance approval,Finalization blocked — BR-HM-028 prerequisites not satisfied
+HM-WF-110,"Notice Creation, Publication, and Archival",End-to-End,"Warden publishes urgent notice, all students in target hostel notified and view it","Notice displayed with red banner, push notifications sent, notice marked as 'Read' when viewed"
+HM-WF-110,"Notice Creation, Publication, and Archival",End-to-End,"Notice expires after end_date, system auto-archives","Notice moved to archive, no longer on active board, accessible in history"
+HM-WF-110,"Notice Creation, Publication, and Archival",Negative,Staff publishes notice with title less than 5 characters,Publication blocked — BR-HM-029 title validation failed
+HM-WF-110,"Notice Creation, Publication, and Archival",Negative,Student in Hostel A tries to view notice targeted to Hostel B only,Notice not visible — BR-HM-035 hostel-specific targeting enforced
+HM-WF-111,"Report Generation, Submission, and Review",End-to-End,"Warden generates report, submits to Super Admin, Super Admin approves and downloads PDF","Report status='Approved', PDF downloaded, report archived with access logs"
+HM-WF-111,"Report Generation, Submission, and Review",End-to-End,"Super Admin requests clarification, Warden revises and resubmits",Report status='Needs Revision' then 'Submitted' again after Warden updates
+HM-WF-111,"Report Generation, Submission, and Review",Negative,Caretaker tries to submit report directly to Super Admin,Submission denied — BR-HM-045 Caretakers submit to Warden only
+HM-WF-111,"Report Generation, Submission, and Review",Negative,Student tries to generate a report,Action denied — BR-HM-040 insufficient permissions
+HM-WF-112,"Guest Room Booking, Check-in, and Check-out",End-to-End,"Student books guest room, Caretaker approves, guest checks in, clean check-out","Booking status='Completed', room released as 'Available', no damages, ID details logged"
+HM-WF-112,"Guest Room Booking, Check-in, and Check-out",End-to-End,"Student books, Caretaker approves, damages found at check-out, fine imposed","Booking status='Completed with Damages', fine created and linked to student, room released"
+HM-WF-112,"Guest Room Booking, Check-in, and Check-out",Negative,Student with 3 active bookings requests another,Booking rejected — BR-HM-051 max 3 active bookings
+HM-WF-112,"Guest Room Booking, Check-in, and Check-out",Negative,Guest check-in attempted without ID verification,Check-in denied — BR-HM-056 identity verification required
+HM-WF-112,"Guest Room Booking, Check-in, and Check-out",Negative,Student books guest room for tomorrow (1-day advance),Booking rejected — BR-HM-054 minimum 2 days advance required
+HM-WF-113,"Extended Stay Application, Approval, and Operations",End-to-End,"Student applies, staff approves, payment made, stay completed without violations","Extended stay status='Completed', charges paid, room released, completion report generated"
+HM-WF-113,"Extended Stay Application, Approval, and Operations",End-to-End,"Student applies, staff rejects due to invalid authorization","Application status='Rejected', Student notified with reason, may appeal to Warden"
+HM-WF-113,"Extended Stay Application, Approval, and Operations",Negative,Student on academic probation applies for extended stay,Application rejected — BR-HM-061 good academic standing required
+HM-WF-113,"Extended Stay Application, Approval, and Operations",Negative,Student fails to pay by deadline,"Approval auto-revoked per BR-HM-073, room reservation cancelled"
+HM-WF-113,"Extended Stay Application, Approval, and Operations",Negative,Extended stay dates outside vacation period,Application rejected — BR-HM-062 dates must be within vacation period
+HM-WF-113,"Extended Stay Application, Approval, and Operations",Negative,Major rule violation during stay,"Stay terminated, Student asked to vacate, violation recorded, future eligibility affected"

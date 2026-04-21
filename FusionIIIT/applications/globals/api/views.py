@@ -38,6 +38,10 @@ def login(request):
     design = HoldsDesignation.objects.select_related('user','designation').filter(working=user)
 
     designation=[]
+    
+    # Add super_admin role if user is superuser
+    if user.is_superuser:
+        designation.append("super_admin")
                 
     if str(user.extrainfo.user_type) == "student":
         designation.append(str(user.extrainfo.user_type))
@@ -68,7 +72,6 @@ def auth_view(request):
     user=request.user
     name = request.user.first_name +"_"+ request.user.last_name
     roll_no = request.user.username
-
     extra_info = get_object_or_404(ExtraInfo, user=user)
     last_selected_role = extra_info.last_selected_role
     
@@ -78,20 +81,50 @@ def auth_view(request):
     for id in designation_id :
         name_ = get_object_or_404(Designation, id = id)
         designation_info.append(str(name_.name))
+    
+    # Add super_admin role if user is superuser
+    if user.is_superuser and "super_admin" not in designation_info:
+        designation_info.insert(0, "super_admin")
+
+    # Add hostel management roles (warden/caretaker) if user has assignments
+    from applications.hostel_management.models import HallWarden, HallCaretaker, HostelStaffAssignment, StaffRoleChoices
+    
+    # Check Modern Assignments
+    hostel_assignments = HostelStaffAssignment.objects.filter(user=user, is_active=True).values_list('role', flat=True)
+    
+    if (StaffRoleChoices.WARDEN in hostel_assignments or HallWarden.objects.filter(faculty__id__user=user, is_active=True).exists()) and "warden" not in designation_info:
+        designation_info.append("warden")
+    
+    if (StaffRoleChoices.CARETAKER in hostel_assignments or HallCaretaker.objects.filter(staff__id__user=user, is_active=True).exists()) and "caretaker" not in designation_info:
+        designation_info.append("caretaker")
 
     accessible_modules = {}
-    
     for designation in designation_info:
-        module_access = ModuleAccess.objects.filter(designation__iexact=designation).first()
-        if module_access:
-            filtered_modules = {}
-
+        # Super admin gets access ONLY to hostel_management module
+        if designation == "super_admin":
+            # Get all field names and set them to False except hostel_management
             field_names = [field.name for field in ModuleAccess._meta.get_fields() if field.name not in ['id', 'designation']]
-
-            for field_name in field_names:
-                filtered_modules[field_name] = getattr(module_access, field_name)
-            
+            filtered_modules = {field_name: (field_name == 'hostel_management') for field_name in field_names}
             accessible_modules[designation] = filtered_modules
+        elif designation == "warden":
+            # Warden role - access only hostel_management module
+            field_names = [field.name for field in ModuleAccess._meta.get_fields() if field.name not in ['id', 'designation']]
+            filtered_modules = {field_name: (field_name == 'hostel_management') for field_name in field_names}
+            accessible_modules[designation] = filtered_modules
+        elif designation == "caretaker":
+            # Caretaker role - access only hostel_management module
+            field_names = [field.name for field in ModuleAccess._meta.get_fields() if field.name not in ['id', 'designation']]
+            filtered_modules = {field_name: (field_name == 'hostel_management') for field_name in field_names}
+            accessible_modules[designation] = filtered_modules
+        else:
+            # Regular role lookup
+            module_access = ModuleAccess.objects.filter(designation__iexact=designation).first()
+            if module_access:
+                filtered_modules = {}
+                field_names = [field.name for field in ModuleAccess._meta.get_fields() if field.name not in ['id', 'designation']]
+                for field_name in field_names:
+                    filtered_modules[field_name] = getattr(module_access, field_name)
+                accessible_modules[designation] = filtered_modules
             
     resp={
         'designation_info' : designation_info,

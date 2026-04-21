@@ -1,0 +1,543 @@
+Test_ID,Scenario,Outcome,Error Details,Status,Severity
+BR-HM-013-I-01,,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+BR-HM-013-I-02,,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+BR-HM-013-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+BR-HM-014-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+BR-HM-015-V-01,,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+BR-HM-016-V-01,,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+BR-HM-019-V-01,,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+BR-HM-030-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+BR-HM-051-V-01,,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+BR-HM-052-V-01,,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+BR-HM-055-V-01,,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+BR-HM-061-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,High
+BR-HM-062-I-01,,Error,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,High
+BR-HM-063-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,High
+BR-HM-065-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,High
+BR-HM-067-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,High
+BR-HM-073-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,High
+BR-HM-074-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,High
+BR-HM-101-V-01,,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+BR-HM-102-V-01,,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+BR-HM-103-V-01,,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+BR-HM-104-I-01,,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+BR-HM-104-V-01,,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+BR-HM-105-V-01,,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+BR-HM-106-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+BR-HM-107-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+BR-HM-107-V-02,,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+BR-HM-108-I-01,,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+BR-HM-108-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+BR-HM-109-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+BR-HM-115-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+BR-HM-116-V-01,,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+HM-UC-001-HP-01,"Student submits leave with valid dates, reason, and documents",Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+HM-UC-002-HP-01,Caretaker approves leave with valid documents,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+HM-UC-002-HP-02,Caretaker rejects leave with rejection reason,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+HM-UC-004-HP-01,"Leave approved, system updates attendance",Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+HM-UC-006-EX-01,Student submits complaint without category,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+HM-UC-006-HP-01,Student submits facility complaint with details,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+HM-UC-007-HP-01,Caretaker resolves complaint with resolution details,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+HM-UC-008-HP-01,Caretaker escalates complaint with reason,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+HM-UC-013-HP-01,Student submits room change with reason,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+HM-UC-014-HP-01,Both Caretaker and Warden approve room change,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+HM-UC-016-EX-01,Caretaker imposes fine with amount=0,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+HM-UC-016-HP-01,Caretaker imposes fine for hostel rule violation,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+HM-UC-019-HP-01,Super Admin creates new hostel,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+HM-UC-021-HP-01,Super Admin assigns Warden to hostel,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+HM-UC-022-HP-01,Super Admin assigns Caretaker to hostel,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+HM-UC-023-HP-01,View staff assignments for reassignment,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+HM-UC-024-HP-01,Warden creates weekly shift schedule,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+HM-UC-027-HP-01,Caretaker submits replacement request,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+HM-UC-029-HP-01,Student submits room vacation request,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+HM-UC-036-HP-01,Student submits guest room booking request,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+HM-UC-037-HP-01,Caretaker approves guest room booking,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+HM-UC-038-EX-01,Dates outside vacation period,Error,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,High
+HM-UC-038-HP-01,Student applies for extended stay with faculty authorization,Error,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,High
+HM-UC-039-HP-01,Caretaker/Warden approves after review,Error,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,High
+HM-UC-040-HP-01,System manages room reservation after approval,Error,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,High
+WF-101-E2E-01,Student → Apply → Caretaker Approves → Attendance Updated,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+WF-101-E2E-02,Student → Apply → Caretaker Rejects,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+WF-101-NEG-01,Student without active allocation submits leave,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+WF-102-E2E-01,Student → Maintenance Complaint → Caretaker Resolves,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+WF-102-E2E-02,Student → Security Complaint → Routed to Warden → Resolved,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+WF-102-NEG-01,Caretaker resolves without remarks,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+WF-103-E2E-01,50 students → Bulk allotment → All allocated,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\db\backends\utils.py"", line 84, in _execute
+    return self.cursor.execute(sql, params)
+psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint ""hostel_management_roomal_student_id_hall_id_e723a4a9_uniq""
+DETAIL:  Key (student_id, hall_id)=(2021BCS001, 98) already exists.
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call",Open,High
+WF-104-E2E-01,Student → Request → Dual Approval → Reassigned,Error,"Traceback (most recent call last):
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\exception.py"", line 47, in inner
+    response = get_response(request)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\core\handlers\base.py"", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File ""C:\My Folders\Coding\FUSION ERP\venv\lib\site-packages\django\views\decorators\csrf.py"", line 54, in wrapp",Open,High
+WF-105-E2E-01,Caretaker → Impose Fine → Student Views,Error,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,High
+WF-105-NEG-01,Caretaker attempts to impose fine with amount=0,Error,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,High
+WF-107-E2E-01,Warden → Create Shift Schedule → Verify Coverage,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+WF-108-E2E-01,Caretaker → Inspect Inventory → No Issues,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+WF-109-E2E-01,Student → Request Vacation → Clearance → Finalize,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+WF-110-E2E-01,Warden → Publish Notice → Student Views → Auto-Archive,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+WF-111-E2E-01,Warden → Generate → Submit → Admin Approves → Download,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+WF-112-E2E-01,Student → Book → Approve → Check-in → Check-out,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium
+WF-113-E2E-01,Student → Apply → Approve → Pay → Complete,Fail,"Traceback (most recent call last):
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 60, in testPartExecutor
+    yield
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 676, in run
+    self._callTestMethod(testMethod)
+  File ""C:\Users\irona\AppData\Local\Programs\Python\Python38\lib\unittest\case.py"", line 633, in _callTestMethod
+    method()
+  File ""C:\My Folders\Coding\FUSION ERP\fusion\fusioniiit\applications\host",Open,Medium

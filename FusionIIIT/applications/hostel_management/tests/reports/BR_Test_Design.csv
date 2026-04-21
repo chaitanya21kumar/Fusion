@@ -1,0 +1,138 @@
+BR_ID,Title,Category,Input/Action,Expected Result
+BR-HM-101,Leave Eligibility Based on Hostel Residency,Valid,Student with active hostel allocation submits leave request,Leave request accepted for processing
+BR-HM-101,Leave Eligibility Based on Hostel Residency,Invalid,Student with vacated hostel status submits leave request,Request rejected — 'Active hostel allocation required'
+BR-HM-102,Leave Date Boundary Validation,Valid,"Submit leave with start_date=2026-04-20, end_date=2026-04-23","Dates accepted, leave request proceeds"
+BR-HM-102,Leave Date Boundary Validation,Invalid,"Submit leave with start_date=2026-04-25, end_date=2026-04-20",Validation error — end date before start date
+BR-HM-103,Mandatory Leave Justification Policy,Valid,Submit leave with reason='Family event' and supporting document uploaded,Leave request accepted
+BR-HM-103,Mandatory Leave Justification Policy,Invalid,Submit leave with empty reason field,Validation error — reason is required
+BR-HM-103,Mandatory Leave Justification Policy,Invalid,Submit leave requiring documents but none uploaded,Validation error — supporting documents required
+BR-HM-104,Leave Decision Authority Enforcement,Valid,Caretaker assigned to Hostel A approves leave for Hostel A student,"Action permitted, leave status updated"
+BR-HM-104,Leave Decision Authority Enforcement,Invalid,Caretaker assigned to Hostel B tries to approve leave for Hostel A student,Action denied — hostel mismatch
+BR-HM-104,Leave Decision Authority Enforcement,Invalid,Student role tries to approve a leave request,Action denied — insufficient permissions
+BR-HM-105,Attendance Synchronization on Leave Approval,Valid,Leave approved for 2026-04-20 to 2026-04-23,Attendance marked 'On Leave' for all 4 days automatically
+BR-HM-105,Attendance Synchronization on Leave Approval,Invalid,Leave rejected — system attempts attendance update,No attendance update occurs for rejected leave
+BR-HM-106,Complaint Eligibility Rule,Valid,Active hostel resident submits complaint,Complaint accepted and recorded
+BR-HM-106,Complaint Eligibility Rule,Invalid,Student with no hostel allocation submits complaint,Complaint rejected — active hostel allocation required
+BR-HM-107,Complaint Routing by Category,Valid,Submit complaint with category='Security',Complaint routed to Warden notification queue
+BR-HM-107,Complaint Routing by Category,Valid,Submit complaint with category='Maintenance',Complaint routed to Caretaker notification queue
+BR-HM-108,Mandatory Resolution Remarks,Valid,Mark complaint as Resolved with remarks='Window replaced on 2026-04-14',Complaint status updated to Resolved
+BR-HM-108,Mandatory Resolution Remarks,Invalid,Mark complaint as Resolved with empty remarks,Update blocked — resolution remarks required
+BR-HM-109,Escalation Authorization Rule,Valid,Escalate complaint with status='In Progress',"Escalation accepted, Warden notified"
+BR-HM-109,Escalation Authorization Rule,Invalid,Escalate complaint with status='Resolved',Escalation blocked — only In-Progress complaints can be escalated
+BR-HM-110,Warden Authority on Escalated Complaints,Valid,Warden resolves an escalated complaint,"Complaint resolved, all actors notified"
+BR-HM-110,Warden Authority on Escalated Complaints,Invalid,Caretaker tries to resolve an escalated complaint,Action denied — only Warden can resolve escalated complaints
+BR-HM-111,Application Window Enforcement,Valid,Submit accommodation request during open application period,Request accepted
+BR-HM-111,Application Window Enforcement,Invalid,Submit accommodation request when application window is closed,Request rejected — application window not open
+BR-HM-112,Bulk Allotment Capacity Safeguard,Valid,Allot 5 students to a room with capacity=5 and occupancy=0,"Allotment succeeds, occupancy updated to 5"
+BR-HM-112,Bulk Allotment Capacity Safeguard,Invalid,Allot 1 student to a room with capacity=2 and occupancy=2,Allotment blocked — room at full capacity
+BR-HM-113,Super Admin Allotment Authority,Valid,Super Admin initiates bulk allotment,Bulk allotment permitted
+BR-HM-113,Super Admin Allotment Authority,Invalid,Caretaker tries to perform bulk allotment,Action denied — Super Admin role required
+BR-HM-114,Mandatory Allotment Notification,Valid,Bulk allotment completed for 50 students,All 50 students receive notification with room details
+BR-HM-115,Room Change Eligibility Rule,Valid,Student with active room allocation requests room change,Room change request accepted
+BR-HM-115,Room Change Eligibility Rule,Invalid,Student without room allocation requests room change,Request rejected — active room allocation required
+BR-HM-116,Dual Approval Requirement,Valid,Room change approved by both Caretaker and Warden,Room reallocation proceeds
+BR-HM-116,Dual Approval Requirement,Invalid,"Room change approved by Caretaker only, Warden has not approved",Reallocation blocked — both approvals required
+BR-HM-117,Occupancy Reconciliation on Room Change,Valid,Student moved from Room A (occupancy=3) to Room B (occupancy=1),"Room A occupancy decremented to 2, Room B incremented to 2"
+BR-HM-118,Mandatory Room Change Notification,Valid,Room change request approved,Student notified with new room details
+BR-HM-025,Hostel Configuration – Source of Truth,Valid,Perform room allocation referencing latest hostel configuration,Operation proceeds with current configuration data
+BR-HM-025,Hostel Configuration – Source of Truth,Invalid,Attempt room allocation when hostel configuration is incomplete,Operation blocked — configuration update required
+BR-HM-019,Staff Role Assignment Constraints,Valid,Activate hostel with 1 Warden and 1 Caretaker assigned,Hostel activated successfully
+BR-HM-019,Staff Role Assignment Constraints,Invalid,Activate hostel with no Warden assigned,Activation blocked — at least one Warden required
+BR-HM-019,Staff Role Assignment Constraints,Invalid,Activate hostel with no Caretaker assigned,Activation blocked — at least one Caretaker required
+BR-HM-008,Hostel Status Management,Valid,Deactivate hostel with 0 occupied rooms,Hostel deactivated successfully
+BR-HM-008,Hostel Status Management,Invalid,Deactivate hostel with 15 occupied rooms,Deactivation blocked — 15 rooms currently occupied
+BR-HM-008,Hostel Status Management,Invalid,Activate hostel with no staff assigned,Activation blocked — mandatory staff roles missing
+BR-HM-013,Fine Imposition Validation,Valid,"Impose fine with amount=500, category='Hostel Rule Violation', reason='Unauthorized guest'",Fine record created with status='Unpaid'
+BR-HM-013,Fine Imposition Validation,Invalid,Impose fine with amount=0,Validation error — amount must be positive
+BR-HM-013,Fine Imposition Validation,Invalid,Impose fine with empty reason,Validation error — reason is required
+BR-HM-013,Fine Imposition Validation,Invalid,Impose fine with no category selected,Validation error — violation category required
+BR-HM-014,Fine Lifecycle and Escalation Management,Valid,Create new fine,Fine created with initial status='Unpaid'
+BR-HM-014,Fine Lifecycle and Escalation Management,Valid,Confirm payment for an unpaid fine,Fine status updated to 'Paid'
+BR-HM-014,Fine Lifecycle and Escalation Management,Invalid,Mark fine as 'Paid' without payment confirmation,Status change blocked — payment verification required
+BR-HM-012,Data Scoping by Role and Assignment,Valid,Student views their own fines,Only fines for that student are displayed
+BR-HM-012,Data Scoping by Role and Assignment,Valid,Super Admin views all fines across all hostels,All fines across all hostels displayed
+BR-HM-012,Data Scoping by Role and Assignment,Invalid,Caretaker of Hostel A tries to view fines for Hostel B,Access denied — not assigned to Hostel B
+BR-HM-022,File Upload Validation,Valid,Upload 2MB PDF document as evidence,File accepted and stored
+BR-HM-022,File Upload Validation,Invalid,Upload 15MB file exceeding size limit,Upload rejected — file exceeds maximum size
+BR-HM-022,File Upload Validation,Invalid,Upload .exe file,Upload rejected — unsupported file format
+BR-HM-016,Guard Shift Conflict Prevention,Valid,Assign guard to Morning shift (6AM-2PM) and another guard to Night shift (10PM-6AM),Shift assignments saved without conflict
+BR-HM-016,Guard Shift Conflict Prevention,Invalid,Assign same guard to Morning (6AM-2PM) and Afternoon (1PM-9PM) overlapping shifts,Assignment rejected — overlapping shifts detected
+BR-HM-026,Minimum Security Coverage Rules,Valid,Create night shift schedule with 3 guards (minimum required: 2),"Schedule saved, coverage requirement met"
+BR-HM-026,Minimum Security Coverage Rules,Invalid,Create night shift schedule with 1 guard (minimum required: 2),Schedule blocked — insufficient guard coverage
+BR-HM-027,Security Audit and Compliance Logging,Valid,Warden creates new shift schedule,"Schedule created with audit log entry (actor, timestamp, action)"
+BR-HM-021,Inventory Discrepancy Logging,Valid,"Log discrepancy: item='Desk', expected=10, actual=8, type='Missing', remarks='2 desks missing from Room 105'",Discrepancy record created with all details
+BR-HM-021,Inventory Discrepancy Logging,Invalid,Log discrepancy without specifying discrepancy type or remarks,Validation error — item details and remarks required
+BR-HM-030,Resource Requirement Request Validation,Valid,"Submit request: type='Replacement', item='Chair', quantity=5, justification='Damaged in storm'",Request submitted with status='Pending'
+BR-HM-030,Resource Requirement Request Validation,Invalid,Submit request with quantity=0,Validation error — quantity must be positive
+BR-HM-030,Resource Requirement Request Validation,Invalid,Submit request with empty justification,Validation error — justification required
+BR-HM-031,Inventory Audit Trail Maintenance,Valid,"Caretaker updates inventory: item='Chair', quantity=+10","Update applied, immutable audit log created with actor, timestamp, and change details"
+BR-HM-015,Room Vacation Prerequisites,Valid,"Student with all fines paid, items returned, no pending damage, good attendance requests vacation",Clearance checklist generated with all items green
+BR-HM-015,Room Vacation Prerequisites,Invalid,Student with ₹2000 outstanding fine requests vacation clearance,Clearance blocked — outstanding fines must be paid
+BR-HM-015,Room Vacation Prerequisites,Invalid,Student with unreturned borrowed items requests clearance,Clearance blocked — borrowed items must be returned
+BR-HM-023,Room Availability Update,Valid,Room deallocation completed for Room 201,"Room 201 status set to 'Available', vacated date recorded"
+BR-HM-028,Vacation Finalization Prerequisites,Valid,"Finalize vacation with clearance='Approved', certificate issued, 0 pending items","Vacation finalized, room deallocated"
+BR-HM-028,Vacation Finalization Prerequisites,Invalid,Finalize vacation with clearance='Pending',Finalization blocked — prerequisites not satisfied
+BR-HM-028,Vacation Finalization Prerequisites,Invalid,Finalize vacation with 2 pending clearance items,Finalization blocked — pending clearance items exist
+BR-HM-029,Notice Content Validation,Valid,"Publish notice with title='Water Supply Maintenance' (25 chars), description=50 chars",Notice accepted for publication
+BR-HM-029,Notice Content Validation,Invalid,Publish notice with title='Hi' (2 chars),Validation error — title must be at least 5 characters
+BR-HM-029,Notice Content Validation,Invalid,Publish notice with description='Short' (5 chars),Validation error — description must be at least 20 characters
+BR-HM-033,Notice Priority Levels,Valid,Publish notice with priority='Urgent',"Notice displayed with red banner, push notifications sent"
+BR-HM-033,Notice Priority Levels,Valid,Publish notice with priority='Normal',Notice displayed with standard formatting
+BR-HM-035,Notice Display Rules,Valid,Student in Hostel A views notice board with Urgent and Normal notices,"Urgent notices displayed first, then Normal. Only Hostel A and 'All Students' notices visible"
+BR-HM-035,Notice Display Rules,Invalid,Student in Hostel A views notice targeted to Hostel B,Notice not visible to the student
+BR-HM-039,Student Notice Access Rights,Valid,Student views notice targeted to their hostel,Notice displayed in read-only mode
+BR-HM-039,Student Notice Access Rights,Invalid,Student tries to edit a notice,Action denied — students have read-only access
+BR-HM-039,Student Notice Access Rights,Invalid,Student tries to access notice for different hostel,Access denied — not assigned to that hostel
+BR-HM-040,Report Generation Authorization,Valid,Warden generates report for their supervised hostel,Report generated successfully
+BR-HM-040,Report Generation Authorization,Invalid,Student tries to generate a report,Action denied — insufficient permissions
+BR-HM-040,Report Generation Authorization,Invalid,Caretaker generates report for unassigned hostel,Action denied — not assigned to that hostel
+BR-HM-043,Report Filter Rules,Valid,"Generate report with filters: hostel='Himalaya', date_range=last_month",Report generated with combined filter criteria
+BR-HM-043,Report Filter Rules,Invalid,Generate targeted report with no filters specified,Validation error — at least one filter required
+BR-HM-044,Report Content Standards,Valid,Generate Room Occupancy Report,"Report includes header, summary stats, charts, detailed tables, and footer with metadata"
+BR-HM-045,Report Submission Authorization,Valid,Warden submits generated report to Super Admin,"Report submitted, Super Admin notified"
+BR-HM-045,Report Submission Authorization,Invalid,Caretaker tries to submit report directly to Super Admin,Action denied — Caretakers submit to Warden only
+BR-HM-045,Report Submission Authorization,Invalid,Warden submits report still in 'Draft' status,Submission blocked — report must be in 'Generated' status
+BR-HM-046,Report Review Hierarchy,Valid,Super Admin approves submitted report,"Report marked 'Approved', Warden notified"
+BR-HM-046,Report Review Hierarchy,Invalid,Warden tries to approve their own submitted report,Action denied — only Super Admin reviews submitted reports
+BR-HM-050,Report Retention Policy,Valid,Query 2-year-old submitted report,Report accessible — within 3-year retention period
+BR-HM-051,Guest Room Booking Eligibility,Valid,"Active student with no fines, good standing, 0 active bookings requests guest room",Booking request accepted
+BR-HM-051,Guest Room Booking Eligibility,Invalid,Student with outstanding fines exceeding grace amount requests guest room,Booking rejected — outstanding fines exceed threshold
+BR-HM-051,Guest Room Booking Eligibility,Invalid,Student with 3 active bookings requests another guest room,Booking rejected — maximum active bookings reached
+BR-HM-052,Booking Date Validation,Valid,"Book guest room: check_in=future+5, check_out=future+7","Dates accepted, booking proceeds"
+BR-HM-052,Booking Date Validation,Invalid,Book guest room with check_in=yesterday,Rejected — check-in date cannot be in the past
+BR-HM-052,Booking Date Validation,Invalid,Book guest room with check_out=check_in (same day),Rejected — check-out must be after check-in
+BR-HM-053,Guest Information Requirements,Valid,"Book with guest_name='John Doe', phone='9876543210', purpose='Parents visiting for college fest'","Guest information validated, booking proceeds"
+BR-HM-053,Guest Information Requirements,Invalid,Book with empty guest name,Validation error — guest name required
+BR-HM-053,Guest Information Requirements,Invalid,Book with phone='123' (invalid format),Validation error — phone must be 10-digit format
+BR-HM-054,Advance Booking Period,Valid,Book guest room 10 days in advance,Booking accepted — within valid advance period
+BR-HM-054,Advance Booking Period,Invalid,Book guest room for tomorrow (1 day advance),Rejected — minimum 2 days advance required
+BR-HM-054,Advance Booking Period,Invalid,Book guest room 45 days in advance,Rejected — exceeds 30-day advance booking limit
+BR-HM-055,Maximum Booking Duration,Valid,Book guest room for 5 nights,Duration accepted
+BR-HM-055,Maximum Booking Duration,Invalid,Book guest room for 10 nights without Warden exception,Rejected — exceeds 7-night maximum
+BR-HM-055,Maximum Booking Duration,Invalid,New booking made 1 day after previous checkout,Rejected — minimum 3-day gap required between bookings
+BR-HM-056,Guest Identity Verification,Valid,"Check-in with Aadhaar card verified, ID details recorded","Check-in completed, ID details logged"
+BR-HM-056,Guest Identity Verification,Invalid,Attempt check-in without ID verification,Check-in denied — identity verification required
+BR-HM-057,Room Inspection Standards,Valid,"Check-out with inspection completed, no damages found","Inspection marked complete, room available"
+BR-HM-058,Damage Assessment Rules,Valid,"Assess Minor damage: scratch on desk, repair cost=₹200","Warning issued at Caretaker's discretion, fine optional"
+BR-HM-058,Damage Assessment Rules,Invalid,Assess Major damage without escalating to Warden,Escalation required — Major/Severe damages must be reviewed by Warden
+BR-HM-059,Guest Room Charges,Valid,3-night stay at ₹500/night + ₹200 cleaning fee,Total charges calculated: ₹1700
+BR-HM-060,Booking Configuration Authority,Valid,Caretaker updates booking charges for their assigned hostel,"Configuration updated, change logged"
+BR-HM-060,Booking Configuration Authority,Invalid,Caretaker tries to configure policy for unassigned hostel,Action denied — not assigned to that hostel
+BR-HM-061,Extended Stay Eligibility,Valid,"Active student, good standing, no fines, faculty letter, no violations applies for extended stay",Application accepted for review
+BR-HM-061,Extended Stay Eligibility,Invalid,Student on academic probation applies for extended stay,Application rejected — not in good academic standing
+BR-HM-061,Extended Stay Eligibility,Invalid,Student with extended stay violation in last 6 months applies,Application rejected — ineligible for 1 academic year after violation
+BR-HM-062,Vacation Period Validation,Valid,Apply for stay 2026-05-15 to 2026-06-15 within vacation period 2026-05-10 to 2026-06-30,"Dates validated, application proceeds"
+BR-HM-062,Vacation Period Validation,Invalid,Apply for stay ending after vacation period end date,Rejected — dates must be within vacation period
+BR-HM-063,Authorization Requirements,Valid,Upload 1MB PDF faculty letter dated 5 days ago,Authorization document accepted
+BR-HM-063,Authorization Requirements,Invalid,Upload 8MB authorization file,Rejected — file exceeds 5MB limit
+BR-HM-063,Authorization Requirements,Invalid,Upload authorization dated 45 days ago,Rejected — authorization must be dated within 30 days
+BR-HM-064,Extended Stay Charges Calculation,Valid,30-day extended stay at ₹100/day + ₹500 facility + 18% tax,"Charge breakdown: Base=₹3000, Facility=₹500, Tax=₹540, Total=₹4040 displayed"
+BR-HM-065,Application Modification Rules,Valid,Modify pending application dates with 10 days until start,"Application modified, status reset to 'Pending'"
+BR-HM-065,Application Modification Rules,Invalid,Modify an approved application,Modification denied — cancel and submit new application
+BR-HM-066,Authorization Verification Standards,Valid,Verify authentic faculty authorization letter with matching signature,"Authorization verified, application review proceeds"
+BR-HM-066,Authorization Verification Standards,Invalid,Authorization identified as forged,"Application rejected immediately, disciplinary action initiated"
+BR-HM-067,Room Availability During Vacation,Valid,Approve extended stay when 20% capacity utilized (max 30%),"Application approved, room reserved"
+BR-HM-067,Room Availability During Vacation,Invalid,Approve extended stay when 30% vacation capacity already allocated,Application moved to waitlist — capacity reached
+BR-HM-073,Payment Deadline Policy,Valid,Student pays within 2 days of approval,"Payment accepted, reservation confirmed"
+BR-HM-073,Payment Deadline Policy,Invalid,Student fails to pay by stay start date,"Approval auto-revoked, room reservation cancelled"
+BR-HM-074,Vacation Services Coordination,Valid,7 days before vacation: 25 extended stay students confirmed,Service planning report generated with meal/cleaning/security requirements for 25 students

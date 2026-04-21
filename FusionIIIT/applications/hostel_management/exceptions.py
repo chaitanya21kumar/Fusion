@@ -1,66 +1,84 @@
-from django.contrib import admin
+"""
+Hostel Management Custom Exceptions
 
-from .models import *
+Custom exception classes for the hostel_management app.
+Used for business logic validation and error handling.
+"""
 
-# ══════════════════════════════════════════════════════════════
-# HALL & STAFF MANAGEMENT
-# ══════════════════════════════════════════════════════════════
-admin.site.register(Hostel)
-admin.site.register(HostelStaffAssignment)
-admin.site.register(Room)
 
-# ══════════════════════════════════════════════════════════════
-# ROOM ALLOCATION & CHANGES (HM-WF-103, HM-WF-104)
-# ══════════════════════════════════════════════════════════════
-admin.site.register(RoomAllocationChange)
-admin.site.register(RoomChangeRequest)
+class HostelManagementException(Exception):
+    """Base exception for hostel management module."""
+    pass
+
 
 # ══════════════════════════════════════════════════════════════
-# LEAVE MANAGEMENT (HM-WF-101)
+# HM-WF-101: LEAVE MANAGEMENT EXCEPTIONS
 # ══════════════════════════════════════════════════════════════
-admin.site.register(LeaveRequest)
+
+class LeaveEligibilityError(HostelManagementException):
+    """Raised when student is not eligible to apply for leave."""
+    pass
+
+
+class LeaveDateValidationError(HostelManagementException):
+    """Raised when leave dates are invalid."""
+    pass
+
 
 # ══════════════════════════════════════════════════════════════
-# COMPLAINT MANAGEMENT (HM-WF-102)
+# HM-WF-102: COMPLAINT MANAGEMENT EXCEPTIONS
 # ══════════════════════════════════════════════════════════════
-admin.site.register(HostelComplaint)
+
+class ComplaintError(HostelManagementException):
+    """Raised when there's an error in complaint management."""
+    pass
+
 
 # ══════════════════════════════════════════════════════════════
-# FINE MANAGEMENT (HM-WF-105)
+# HM-WF-103 & HM-WF-104: ROOM ALLOCATION & CHANGE EXCEPTIONS
 # ══════════════════════════════════════════════════════════════
-admin.site.register(HostelFine)
+
+class RoomAllocationError(HostelManagementException):
+    """Raised when there's an error in room allocation."""
+    pass
+
+
+class RoomChangeError(HostelManagementException):
+    """Raised when there's an error in room change process."""
+    pass
+
 
 # ══════════════════════════════════════════════════════════════
-# STAFF & SCHEDULING (HM-WF-106, HM-WF-107)
+# HM-WF-105: FINE MANAGEMENT EXCEPTIONS
 # ══════════════════════════════════════════════════════════════
-admin.site.register(StaffSchedule)
-admin.site.register(WorkerReport)
-admin.site.register(HostelAllotment)
+
+class FineError(HostelManagementException):
+    """Raised when there's an error in fine management."""
+    pass
+
 
 # ══════════════════════════════════════════════════════════════
-# INVENTORY MANAGEMENT (HM-WF-108)
+# HM-WF-108: INVENTORY MANAGEMENT EXCEPTIONS
 # ══════════════════════════════════════════════════════════════
-admin.site.register(HostelInventory)
+
+class InventoryError(HostelManagementException):
+    """Raised when there's an error in inventory management."""
+    pass
+
 
 # ══════════════════════════════════════════════════════════════
-# NOTICE BOARD (HM-WF-110)
+# HM-WF-110: NOTICE BOARD EXCEPTIONS
 # ══════════════════════════════════════════════════════════════
-admin.site.register(HostelNoticeBoard)
+
+class NoticeBoardError(HostelManagementException):
+    """Raised when there's an error in notice board management."""
+    pass
+
 
 # ══════════════════════════════════════════════════════════════
-# GUEST ROOM MANAGEMENT (HM-WF-112)
+# HM-WF-112: GUEST ROOM BOOKING EXCEPTIONS
 # ══════════════════════════════════════════════════════════════
-admin.site.register(GuestRoom)
-admin.site.register(GuestRoomBooking)
 
-# ══════════════════════════════════════════════════════════════
-# ATTENDANCE & RECORDS
-# ══════════════════════════════════════════════════════════════
-admin.site.register(StudentAttendanceRecord)
-
-# ══════════════════════════════════════════════════════════════
-# STUDENT & TRANSACTION RECORDS
-# ══════════════════════════════════════════════════════════════
-admin.site.register(StudentDetails)
-admin.site.register(HostelTransactionHistory)
-admin.site.register(HostelHistory)
+class GuestRoomBookingError(HostelManagementException):
+    """Raised when there's an error in guest room booking."""
+    pass

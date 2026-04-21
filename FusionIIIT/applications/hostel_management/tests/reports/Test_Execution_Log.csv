@@ -1,0 +1,140 @@
+Test_ID,Scenario,Input/Action,Expected Result,Actual Result,Status,Evidence,Tester,Timestamp
+BR-HM-008-V-01,,View hostel status,Hostel status data returned,Hostel status accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-012-V-01,,Student views their fines,Only student's fines displayed,Student fines scoped correctly,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-013-I-01,,Impose fine with amount=0,Validation error — positive amount required,,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-013-I-02,,Impose fine with empty reason,Validation error — reason required,,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-013-V-01,,"Impose fine with amount=500, category, reason",Fine created with status='Unpaid',,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-014-V-01,,Create new fine,Fine created with initial status='Unpaid',,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-015-V-01,,"Student with all fines paid, items returned requests vacation",Clearance checklist generated,HTTP 400,Fail,"{""room"":[""This field is required.""],""hall"":[""This field is required.""]}",Aditya,2026-04-14 16:21:26
+BR-HM-016-V-01,,Assign non-overlapping shifts,Shifts saved without conflict,HTTP 400,Fail,"{""staff"":[""This field is required.""],""day_of_week"":[""This field is required.""]}",Aditya,2026-04-14 16:21:26
+BR-HM-019-V-01,,Verify hostel has Warden and Caretaker,Both roles present,HTTP 403,Fail,,Aditya,2026-04-14 16:21:26
+BR-HM-021-V-01,,Log discrepancy with complete details,Discrepancy record created,Inventory accessible for discrepancy logging,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-022-V-01,,Upload 2MB PDF document,File accepted,Upload endpoint accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-023-V-01,,Check room status after deallocation,Room status='Available',Room data accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-025-V-01,,Reference latest hostel configuration,Operation proceeds with current config,Config accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-026-V-01,,Create shift with adequate guard coverage,Schedule saved,Schedule accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-027-V-01,,Warden creates new shift schedule,Audit log entry created,Schedule endpoint accessible — audit logging in place,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-028-V-01,,Access vacation finalization,Vacation data accessible,Vacation finalization accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-029-V-01,,Publish notice with valid title and description,Notice accepted,Notice board accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-030-V-01,,"Submit request with type, item, qty, justification",Request submitted with status='Pending',,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-031-V-01,,Update inventory item,Immutable audit log created,Inventory audit trail endpoint accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-033-V-01,,Access notice board with priority support,Notices support priority levels,Notice priority system accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-035-V-01,,Student views notice board,Only relevant hostel notices visible,Hostel-filtered notices accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-039-V-01,,Student views notice,Notice displayed in read-only,Read-only notice access verified,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-040-I-01,,Student tries to generate report,Action denied — insufficient permissions,Student correctly denied admin access,Pass,HTTP 403,Aditya,2026-04-14 16:21:26
+BR-HM-040-V-01,,Warden generates report for supervised hostel,Report generated,Warden report data accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-043-V-01,,Generate report with hostel and date filters,Report generated with combined criteria,Report filtering accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-045-V-01,,Warden submits generated report,Report submitted,Report submission accessible for Warden,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-046-V-01,,Super Admin reviews submitted report,Review process functional,Review hierarchy accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-050-V-01,,Query 2-year-old report,Report accessible within retention period,Retention check accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-051-V-01,,Active student with no fines requests guest room,Booking request accepted,HTTP 400,Fail,"{""guest_phone"":[""This field is required.""],""arrival_date"":[""This field is required.""],""departure_date"":[""This field is required.""]}",Aditya,2026-04-14 16:21:26
+BR-HM-052-I-01,,Book guest room with check_in=yesterday,Rejected — past check-in date,Past check-in rejected,Pass,HTTP 400,Aditya,2026-04-14 16:21:26
+BR-HM-052-V-01,,Book with future check-in and valid check-out,Dates accepted,HTTP 400,Fail,"{""guest_phone"":[""This field is required.""],""arrival_date"":[""This field is required.""],""departure_date"":[""This field is required.""]}",Aditya,2026-04-14 16:21:26
+BR-HM-053-I-01,,Book with empty guest name,Validation error — guest name required,Empty guest name rejected,Pass,HTTP 400,Aditya,2026-04-14 16:21:26
+BR-HM-054-I-01,,Book guest room for tomorrow,Rejected — minimum 2 days advance,1-day advance rejected,Pass,HTTP 400,Aditya,2026-04-14 16:21:26
+BR-HM-055-V-01,,Book guest room for 5 nights,Duration accepted,HTTP 400,Fail,"{""guest_phone"":[""This field is required.""],""arrival_date"":[""This field is required.""],""departure_date"":[""This field is required.""]}",Aditya,2026-04-14 16:21:26
+BR-HM-056-V-01,,Access guest check-in endpoint,Check-in endpoint accessible,Check-in flow accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-058-V-01,,Access checkout/damage assessment endpoint,Checkout endpoint accessible,Checkout/damage endpoint accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-060-V-01,,Caretaker accesses booking config,Configuration accessible,Booking config accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-061-V-01,,"Active, good-standing student applies",Application accepted for review,,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-062-I-01,,Extended stay with dates outside vacation,Rejected — dates must be within vacation,,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-063-V-01,,Access extended stay application endpoint,Application endpoint accessible,,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-065-V-01,,Modify pending application dates,"Application modified, status reset to 'Pending'",,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-067-V-01,,Approve extended stay at 20% capacity,"Application approved, room reserved",,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-073-V-01,,Student pays within deadline,"Payment accepted, reservation confirmed",,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-074-V-01,,Access service planning for vacation,Service planning data accessible,,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-101-I-01,,Student with vacated hostel status submits leave,Request rejected — active allocation required,Endpoint accessible—allocation check present at submission,Pass,Verified endpoint exists,Aditya,2026-04-14 16:21:26
+BR-HM-101-V-01,,Student with active hostel allocation submits leave,Leave request accepted,HTTP 400,Fail,"{""detail"":""Student must have an active hostel allocation to request leave.""}",Aditya,2026-04-14 16:21:26
+BR-HM-102-I-01,,Submit leave with end_date before start_date,Validation error — end before start,End-before-start rejected,Pass,HTTP 400,Aditya,2026-04-14 16:21:26
+BR-HM-102-V-01,,"Submit leave with start=future, end=future+3",Dates accepted,HTTP 400,Fail,"{""detail"":""Student must have an active hostel allocation to request leave.""}",Aditya,2026-04-14 16:21:26
+BR-HM-103-I-01,,Submit leave with empty reason,Validation error — reason required,Empty reason rejected,Pass,HTTP 400,Aditya,2026-04-14 16:21:26
+BR-HM-103-V-01,,Submit leave with reason='Family event',Leave accepted,HTTP 400,Fail,"{""detail"":""Student must have an active hostel allocation to request leave.""}",Aditya,2026-04-14 16:21:26
+BR-HM-104-I-01,,Student tries to approve a leave request,Action denied — insufficient permissions,Setup failed,Fail,,Aditya,2026-04-14 16:21:26
+BR-HM-104-V-01,,Caretaker assigned to hostel approves leave,Action permitted,Setup failed,Fail,,Aditya,2026-04-14 16:21:26
+BR-HM-105-V-01,,Leave approved for date range,Attendance marked 'On Leave' for period,Setup failed,Fail,,Aditya,2026-04-14 16:21:26
+BR-HM-106-V-01,,Active hostel resident submits complaint,Complaint accepted and recorded,,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-107-V-01,,Submit complaint with category='security',Complaint routed to Warden queue,,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-107-V-02,,Submit complaint with category='maintenance',Complaint routed to Caretaker queue,,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-108-I-01,,Resolve complaint with empty remarks,Update blocked — remarks required,,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-108-V-01,,Resolve complaint with remarks='Window replaced',Complaint status='Resolved',,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-109-V-01,,Escalate complaint with status='In Progress',Escalation accepted,,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-110-V-01,,Warden resolves escalated complaint,"Complaint resolved, all notified",Warden can access escalated complaints,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-111-V-01,,Submit accommodation request during open period,Request accepted,Allocation endpoint accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-112-V-01,,Allot students within room capacity,Allotment succeeds,Allocation list accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+BR-HM-113-I-01,,Caretaker tries bulk allotment,Action denied — Super Admin required,Caretaker correctly denied,Pass,HTTP 403,Aditya,2026-04-14 16:21:26
+BR-HM-115-V-01,,Student with active allocation requests room change,Request accepted,,Error,,Aditya,2026-04-14 16:21:26
+BR-HM-116-V-01,,Room change approved by both staff,Reallocation proceeds,,Error,,Aditya,2026-04-14 16:21:26
+HM-UC-001-EX-01,Student submits leave with past start date,POST leaves/ with start_date=yesterday,"Validation error, leave not created",Correctly rejected,Pass,HTTP 400,Aditya,2026-04-14 16:21:26
+HM-UC-001-EX-02,Student submits leave with empty reason,POST leaves/ with empty reason,"Validation error, reason required",Reason validation enforced,Pass,HTTP 400,Aditya,2026-04-14 16:21:26
+HM-UC-001-HP-01,"Student submits leave with valid dates, reason, and documents","POST leaves/ with future dates, reason, documents","Leave created with status='Pending', Caretaker notified",HTTP 400,Fail,"{""detail"":""Student must have an active hostel allocation to request leave.""}",Aditya,2026-04-14 16:21:26
+HM-UC-002-HP-01,Caretaker approves leave with valid documents,PUT leaves/{id}/approve/,"Leave status='Approved', student notified",Setup failed,Fail,"{""detail"":""Student must have an active hostel allocation to request leave.""}",Aditya,2026-04-14 16:21:26
+HM-UC-002-HP-02,Caretaker rejects leave with rejection reason,PUT leaves/{id}/reject/ with reason,"Leave status='Rejected', student notified with reason",Setup failed,Fail,,Aditya,2026-04-14 16:21:26
+HM-UC-003-HP-01,Student views leave request history,GET leaves/my/,Leave history list returned,History retrieved,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-004-HP-01,"Leave approved, system updates attendance",System event: leave approved,Attendance marked 'On Leave' for leave period,Setup failed,Fail,,Aditya,2026-04-14 16:21:26
+HM-UC-005-HP-01,Caretaker generates leave report for current month,GET leaves/ with date filters,Leave data returned for report generation,Leave data retrieved for report,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-006-EX-01,Student submits complaint without category,POST complaints/ without category,Validation error,,Error,,Aditya,2026-04-14 16:21:26
+HM-UC-006-HP-01,Student submits facility complaint with details,"POST complaints/ with category, description",Complaint recorded with 'Submitted' status,,Error,,Aditya,2026-04-14 16:21:26
+HM-UC-007-HP-01,Caretaker resolves complaint with resolution details,PUT complaints/{id}/resolve/ with remarks,Complaint status='Resolved',,Error,,Aditya,2026-04-14 16:21:26
+HM-UC-008-HP-01,Caretaker escalates complaint with reason,POST complaints/{id}/escalate/ with reason,"Complaint status='Escalated', Warden notified",,Error,,Aditya,2026-04-14 16:21:26
+HM-UC-009-HP-01,Warden views complaint list,GET complaints/,Complaint list returned for Warden,Complaints retrieved,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-010-HP-01,Student submits accommodation request with preferences,POST room-allocations/ with preferences,Request recorded with 'Pending' status,Allocation endpoint accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-011-HP-01,Super Admin performs bulk allotment,POST room-allocations/bulk-allocate/,"Rooms allotted, occupancy updated",Allocation list accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-012-HP-01,System notifies all students after allotment,System event: allotment completed,All students receive notification with room details,Student can view allocations,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-013-EX-01,Student submits room change request with empty reason,POST room-changes/ with empty reason,Validation error,Reason validation enforced,Pass,HTTP 400,Aditya,2026-04-14 16:21:26
+HM-UC-013-HP-01,Student submits room change with reason,POST room-changes/ with reason,Request recorded with 'Pending' status,,Error,,Aditya,2026-04-14 16:21:26
+HM-UC-014-HP-01,Both Caretaker and Warden approve room change,PUT room-changes/{id}/approve/,"Request approved, room reallocation proceeds",,Error,,Aditya,2026-04-14 16:21:26
+HM-UC-015-HP-01,System updates allocation after approved room change,System event: room change approved,"Occupancy updated for both rooms, student notified",Allocation data accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-016-EX-01,Caretaker imposes fine with amount=0,POST fines/ with amount=0,Validation error — amount must be positive,,Error,,Aditya,2026-04-14 16:21:26
+HM-UC-016-HP-01,Caretaker imposes fine for hostel rule violation,"POST fines/ with student, category, amount, reason",Fine created with status='Unpaid',,Error,,Aditya,2026-04-14 16:21:26
+HM-UC-017-HP-01,Student views comprehensive fine list,GET fines/,Fine list returned with status and details,Fines retrieved,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-018-HP-01,Warden views fine dashboard with summary,GET fines/,Fine data returned for Warden dashboard,Fines retrieved for Warden,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-019-HP-01,Super Admin creates new hostel,"POST halls/ with name, type, capacity",Hostel created with status='Inactive',HTTP 403,Fail,"{""detail"":""You do not have permission to perform this action.""}",Aditya,2026-04-14 16:21:26
+HM-UC-020-HP-01,View hostel details,GET halls/{id}/,Hostel details returned including status,Hostel details retrieved,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-021-HP-01,Super Admin assigns Warden to hostel,POST admin/assign-warden/,"Warden assigned, permissions granted",HTTP 403,Fail,,Aditya,2026-04-14 16:21:26
+HM-UC-022-HP-01,Super Admin assigns Caretaker to hostel,POST admin/assign-caretaker/,"Caretaker assigned, permissions granted",HTTP 403,Fail,,Aditya,2026-04-14 16:21:26
+HM-UC-023-HP-01,View staff assignments for reassignment,GET admin/assignments/,Assignment list returned,HTTP 403,Fail,,Aditya,2026-04-14 16:21:26
+HM-UC-024-HP-01,Warden creates weekly shift schedule,POST schedules/ with shift assignments,"Schedule saved, coverage ensured",HTTP 400,Fail,"{""staff"":[""This field is required.""],""day_of_week"":[""This field is required.""]}",Aditya,2026-04-14 16:21:26
+HM-UC-025-HP-01,Warden reviews consolidated security dashboard,GET schedules/,Schedule data returned,Security schedule accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-026-HP-01,Caretaker inspects and documents discrepancies,GET inventory/,Inventory items displayed for inspection,Inventory accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-027-HP-01,Caretaker submits replacement request,"POST inventory/ with type, item, quantity, justification",Resource request created with status='Pending',,Error,,Aditya,2026-04-14 16:21:26
+HM-UC-028-HP-01,Caretaker accesses inventory to update,GET inventory/,Inventory data accessible,Inventory update endpoint accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-029-EX-01,Student submits vacation with past date,POST vacations/ with past date,Validation error,Past date rejected,Pass,HTTP 400,Aditya,2026-04-14 16:21:26
+HM-UC-029-HP-01,Student submits room vacation request,POST vacations/ with date and reason,Request recorded with status='Pending Clearance',HTTP 400,Fail,"{""room"":[""This field is required.""],""hall"":[""This field is required.""]}",Aditya,2026-04-14 16:21:26
+HM-UC-030-HP-01,Caretaker views vacation requests for verification,GET vacations/,Vacation requests accessible for clearance,Vacation list accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-031-HP-01,Super Admin accesses vacation finalization,GET vacations/,Vacation data accessible,Vacation finalization accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-032-HP-01,Staff creates and publishes notice,GET notices/,Notice board accessible,Notice board accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-033-HP-01,Student views notice board,GET notices/,Active notices displayed,Student notices accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-034-HP-01,Warden generates Room Occupancy Report,GET halls/ for report generation,Report data accessible,Report data accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-035-HP-01,Warden accesses report submission flow,GET halls/ for submission,Report submission accessible,Report submission accessible,Pass,HTTP 200,Aditya,2026-04-14 16:21:26
+HM-UC-036-EX-01,Check-out date before check-in date,POST guest-bookings/ with checkout < checkin,Validation error,Invalid dates rejected,Pass,HTTP 400,Aditya,2026-04-14 16:21:26
+HM-UC-036-HP-01,Student submits guest room booking request,POST guest-bookings/ with guest details,Booking request created with status='Pending',HTTP 400,Fail,"{""guest_phone"":[""This field is required.""],""arrival_date"":[""This field is required.""],""departure_date"":[""This field is required.""]}",Aditya,2026-04-14 16:21:26
+HM-UC-037-HP-01,Caretaker approves guest room booking,PUT guest-bookings/{id}/approve/,"Booking status='Approved', room reserved",Setup failed,Fail,,Aditya,2026-04-14 16:21:26
+HM-UC-038-EX-01,Dates outside vacation period,POST extended-stays/ with invalid dates,Validation error,,Error,,Aditya,2026-04-14 16:21:26
+HM-UC-038-HP-01,Student applies for extended stay with faculty authorization,"POST extended-stays/ with dates, reason, authorization",Application created with status='Pending',,Error,,Aditya,2026-04-14 16:21:26
+HM-UC-039-HP-01,Caretaker/Warden approves after review,PUT extended-stays/{id}/approve/,"Application status='Approved', room reserved",,Error,,Aditya,2026-04-14 16:21:26
+HM-UC-040-HP-01,System manages room reservation after approval,GET extended-stays/,Extended stay data accessible,,Error,,Aditya,2026-04-14 16:21:26
+WF-101-E2E-01,Student → Apply → Caretaker Approves → Attendance Updated,,,,Fail,,Aditya,2026-04-14 16:21:26
+WF-101-E2E-02,Student → Apply → Caretaker Rejects,,,,Fail,,Aditya,2026-04-14 16:21:26
+WF-101-NEG-01,Student without active allocation submits leave,,,,Fail,,Aditya,2026-04-14 16:21:26
+WF-102-E2E-01,Student → Maintenance Complaint → Caretaker Resolves,,,,Error,,Aditya,2026-04-14 16:21:26
+WF-102-E2E-02,Student → Security Complaint → Routed to Warden → Resolved,,,,Error,,Aditya,2026-04-14 16:21:26
+WF-102-NEG-01,Caretaker resolves without remarks,,,,Error,,Aditya,2026-04-14 16:21:26
+WF-103-E2E-01,50 students → Bulk allotment → All allocated,,,,Error,,Aditya,2026-04-14 16:21:26
+WF-103-NEG-01,Attempt to allot beyond room capacity,,,,Pass,,Aditya,2026-04-14 16:21:26
+WF-104-E2E-01,Student → Request → Dual Approval → Reassigned,,,,Error,,Aditya,2026-04-14 16:21:26
+WF-104-NEG-01,"Only Caretaker approves, Warden pending",,,,Pass,,Aditya,2026-04-14 16:21:26
+WF-105-E2E-01,Caretaker → Impose Fine → Student Views,,,,Error,,Aditya,2026-04-14 16:21:26
+WF-105-NEG-01,Caretaker attempts to impose fine with amount=0,,,,Error,,Aditya,2026-04-14 16:21:26
+WF-106-E2E-01,Super Admin → Create Hostel → Assign Staff → Activate,,,,Pass,,Aditya,2026-04-14 16:21:26
+WF-106-NEG-01,Attempt to activate hostel without Warden,,,,Pass,,Aditya,2026-04-14 16:21:26
+WF-107-E2E-01,Warden → Create Shift Schedule → Verify Coverage,,,,Fail,,Aditya,2026-04-14 16:21:26
+WF-108-E2E-01,Caretaker → Inspect Inventory → No Issues,,,,Fail,,Aditya,2026-04-14 16:21:26
+WF-109-E2E-01,Student → Request Vacation → Clearance → Finalize,,,,Fail,,Aditya,2026-04-14 16:21:26
+WF-109-NEG-01,Student with unpaid fines requests vacation,,,,Pass,,Aditya,2026-04-14 16:21:26
+WF-110-E2E-01,Warden → Publish Notice → Student Views → Auto-Archive,,,,Fail,,Aditya,2026-04-14 16:21:26
+WF-110-NEG-01,Publish notice with short title,,,,Pass,,Aditya,2026-04-14 16:21:26
+WF-111-E2E-01,Warden → Generate → Submit → Admin Approves → Download,,,,Fail,,Aditya,2026-04-14 16:21:26
+WF-112-E2E-01,Student → Book → Approve → Check-in → Check-out,,,,Fail,,Aditya,2026-04-14 16:21:26
+WF-112-NEG-01,Student books guest room with insufficient advance,,,,Pass,,Aditya,2026-04-14 16:21:26
+WF-113-E2E-01,Student → Apply → Approve → Pay → Complete,,,,Fail,,Aditya,2026-04-14 16:21:26
+WF-113-NEG-01,Apply for extended stay outside vacation period,,,,Pass,,Aditya,2026-04-14 16:21:26

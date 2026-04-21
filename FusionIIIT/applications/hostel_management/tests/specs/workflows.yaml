@@ -1,0 +1,280 @@
+workflows:
+  - id: "TODO-1"
+    title: "Example Title"
+workflows:
+
+  # ===========================================================================
+  # WF-101: LEAVE REQUEST WORKFLOW
+  # ===========================================================================
+
+  - id: "HM-WF-101"
+    title: "Leave Request Workflow"
+    description: "Student submits leave → System records & notifies Caretaker → Caretaker reviews → Approve/Reject → System updates attendance → Student views status"
+
+    e2e_tests:
+      - scenario: "Student submits leave, Caretaker approves, attendance updated"
+        expected_final_state: "Leave status='Approved', attendance marked 'On Leave' for leave period, Student notified"
+      - scenario: "Student submits leave, Caretaker rejects with reason"
+        expected_final_state: "Leave status='Rejected', no attendance update, Student notified with rejection reason"
+
+    negative_tests:
+      - scenario: "Student without active hostel allocation submits leave"
+        expected_final_state: "Leave request blocked at submission — BR-HM-101 violated"
+      - scenario: "Caretaker from different hostel tries to approve leave"
+        expected_final_state: "Action denied — BR-HM-104 hostel mismatch"
+
+
+  # ===========================================================================
+  # WF-102: COMPLAINT MANAGEMENT WORKFLOW
+  # ===========================================================================
+
+  - id: "HM-WF-102"
+    title: "Complaint Lifecycle Workflow"
+    description: "Student submits complaint → System routes by category → Caretaker investigates → Resolve or Escalate to Warden → Student notified"
+
+    e2e_tests:
+      - scenario: "Student submits maintenance complaint, Caretaker resolves it"
+        expected_final_state: "Complaint status='Resolved', resolution remarks recorded, Student notified"
+      - scenario: "Student submits security complaint, routed directly to Warden, Warden resolves"
+        expected_final_state: "Complaint routed to Warden (BR-HM-107.a), status='Resolved', all parties notified"
+      - scenario: "Caretaker cannot resolve, escalates to Warden, Warden resolves"
+        expected_final_state: "Complaint status='Escalated' then 'Resolved', escalation reason recorded"
+
+    negative_tests:
+      - scenario: "Caretaker tries to resolve complaint without resolution remarks"
+        expected_final_state: "Update blocked — BR-HM-108 mandatory remarks required"
+      - scenario: "Caretaker tries to escalate already-resolved complaint"
+        expected_final_state: "Escalation blocked — BR-HM-109 only In-Progress complaints"
+
+
+  # ===========================================================================
+  # WF-103: BULK ROOM ALLOTMENT WORKFLOW
+  # ===========================================================================
+
+  - id: "HM-WF-103"
+    title: "Bulk Room Allotment and Student Onboarding"
+    description: "Students submit accommodation requests → Super Admin performs bulk allotment → System validates capacity → Rooms assigned → Students and Caretakers notified"
+
+    e2e_tests:
+      - scenario: "50 students request accommodation, Super Admin allots rooms within capacity"
+        expected_final_state: "All 50 students allotted rooms, occupancy updated, all students and caretakers notified, status='Allotted'"
+      - scenario: "Students submit requests during open window, Super Admin processes"
+        expected_final_state: "Requests recorded during window, bulk allotment completed, assignment history recorded"
+
+    negative_tests:
+      - scenario: "Super Admin attempts allotment exceeding room capacity"
+        expected_final_state: "Allotment blocked — BR-HM-112 over-allocation prevented"
+      - scenario: "Student submits accommodation request outside application window"
+        expected_final_state: "Request rejected — BR-HM-111 window not open"
+
+
+  # ===========================================================================
+  # WF-104: ROOM CHANGE WORKFLOW
+  # ===========================================================================
+
+  - id: "HM-WF-104"
+    title: "Room Change Request and Reassignment"
+    description: "Student requests room change → Caretaker checks availability → Warden checks policy → Dual approval → System updates allocation and occupancy"
+
+    e2e_tests:
+      - scenario: "Student requests change, both Caretaker and Warden approve, room reassigned"
+        expected_final_state: "Old room occupancy decremented, new room occupancy incremented, Student notified with new room details"
+
+    negative_tests:
+      - scenario: "Only Caretaker approves, Warden has not approved"
+        expected_final_state: "Room change blocked — BR-HM-116 dual approval required"
+      - scenario: "Student without active allocation requests room change"
+        expected_final_state: "Request rejected — BR-HM-115 active allocation required"
+      - scenario: "Request violates hostel policy, Warden rejects"
+        expected_final_state: "Room change rejected with policy reference, Student notified"
+
+
+  # ===========================================================================
+  # WF-105: FINE MANAGEMENT WORKFLOW
+  # ===========================================================================
+
+  - id: "HM-WF-105"
+    title: "Fine Imposition, Tracking, and Monitoring"
+    description: "Caretaker imposes fine → System validates & records → Student notified & views fine → Warden monitors patterns → Escalate if threshold breached"
+
+    e2e_tests:
+      - scenario: "Caretaker imposes valid fine, Student views it, Warden monitors — no escalation"
+        expected_final_state: "Fine status='Unpaid', visible in Student and Warden dashboards, no escalation triggered"
+      - scenario: "Student accumulates fines exceeding threshold, Warden flags for escalation"
+        expected_final_state: "Student flagged as repeat offender per BR-HM-014, escalated for disciplinary review"
+
+    negative_tests:
+      - scenario: "Caretaker imposes fine with amount=0"
+        expected_final_state: "Fine creation blocked — BR-HM-013 positive amount required"
+      - scenario: "Caretaker of Hostel A views fines for Hostel B"
+        expected_final_state: "Access denied — BR-HM-012 role-based data scoping"
+
+
+  # ===========================================================================
+  # WF-106: HOSTEL CREATION AND ACTIVATION WORKFLOW
+  # ===========================================================================
+
+  - id: "HM-WF-106"
+    title: "Hostel Creation, Staffing, and Activation"
+    description: "Super Admin creates hostel (inactive) → Assigns Warden → Assigns Caretaker → System validates staff → Activates hostel"
+
+    e2e_tests:
+      - scenario: "Super Admin creates hostel, assigns Warden and Caretaker, activates"
+        expected_final_state: "Hostel status='Active', Warden and Caretaker have dashboard access, hostel available for room allocation"
+
+    negative_tests:
+      - scenario: "Super Admin tries to activate hostel without assigning Warden"
+        expected_final_state: "Activation blocked — BR-HM-019 Warden required"
+      - scenario: "Super Admin tries to activate hostel without assigning Caretaker"
+        expected_final_state: "Activation blocked — BR-HM-019 Caretaker required"
+      - scenario: "Super Admin tries to deactivate hostel with occupied rooms"
+        expected_final_state: "Deactivation blocked — BR-HM-008 occupied rooms exist"
+
+
+  # ===========================================================================
+  # WF-107: SECURITY MANAGEMENT WORKFLOW
+  # ===========================================================================
+
+  - id: "HM-WF-107"
+    title: "Guard Shift Scheduling and Security Review"
+    description: "Warden creates/updates guard shift schedule → System validates conflicts and coverage → Warden reviews security dashboard"
+
+    e2e_tests:
+      - scenario: "Warden creates weekly shift schedule with adequate coverage, reviews security status"
+        expected_final_state: "Shift schedule saved, guards notified, security dashboard shows full coverage"
+
+    negative_tests:
+      - scenario: "Warden assigns same guard to overlapping shifts"
+        expected_final_state: "Schedule blocked — BR-HM-016 shift conflict detected"
+      - scenario: "Warden saves schedule with mandatory shifts unassigned"
+        expected_final_state: "Schedule blocked — BR-HM-026 minimum coverage not met"
+
+
+  # ===========================================================================
+  # WF-108: INVENTORY MANAGEMENT WORKFLOW
+  # ===========================================================================
+
+  - id: "HM-WF-108"
+    title: "Inventory Check, Issue Logging, and Resource Request"
+    description: "Caretaker inspects inventory → Identifies issues → Updates records → Submits resource request for replacements"
+
+    e2e_tests:
+      - scenario: "Caretaker inspects, finds damaged items, logs discrepancy, submits replacement request"
+        expected_final_state: "Discrepancy logged per BR-HM-021, inventory records updated, resource request created with status='Pending'"
+      - scenario: "Caretaker inspects inventory, finds no issues"
+        expected_final_state: "Inspection completed, no discrepancies logged, workflow ends"
+
+    negative_tests:
+      - scenario: "Caretaker submits resource request with empty justification"
+        expected_final_state: "Request blocked — BR-HM-030 justification required"
+
+
+  # ===========================================================================
+  # WF-109: ROOM VACATION WORKFLOW
+  # ===========================================================================
+
+  - id: "HM-WF-109"
+    title: "Room Vacation with Clearance Verification"
+    description: "Student requests vacation → System generates clearance checklist → Caretaker verifies (fines, items, room condition) → Clearance certificate issued → Super Admin finalizes deallocation"
+
+    e2e_tests:
+      - scenario: "Student requests vacation, all clearance items satisfied, Caretaker approves, Super Admin finalizes"
+        expected_final_state: "Room deallocated, status='Available', student history archived, clearance certificate issued, Student notified"
+
+    negative_tests:
+      - scenario: "Student has unpaid fines, clearance blocked"
+        expected_final_state: "Clearance blocked per BR-HM-015, Student notified to pay fines"
+      - scenario: "Student has unreturned borrowed items"
+        expected_final_state: "Clearance blocked per BR-HM-015, items listed for return"
+      - scenario: "Super Admin tries to finalize vacation without clearance approval"
+        expected_final_state: "Finalization blocked — BR-HM-028 prerequisites not satisfied"
+
+
+  # ===========================================================================
+  # WF-110: NOTICE BOARD WORKFLOW
+  # ===========================================================================
+
+  - id: "HM-WF-110"
+    title: "Notice Creation, Publication, and Archival"
+    description: "Staff creates notice → System validates → Publishes with notifications → Students view → System auto-archives expired notices"
+
+    e2e_tests:
+      - scenario: "Warden publishes urgent notice, all students in target hostel notified and view it"
+        expected_final_state: "Notice displayed with red banner, push notifications sent, notice marked as 'Read' when viewed"
+      - scenario: "Notice expires after end_date, system auto-archives"
+        expected_final_state: "Notice moved to archive, no longer on active board, accessible in history"
+
+    negative_tests:
+      - scenario: "Staff publishes notice with title less than 5 characters"
+        expected_final_state: "Publication blocked — BR-HM-029 title validation failed"
+      - scenario: "Student in Hostel A tries to view notice targeted to Hostel B only"
+        expected_final_state: "Notice not visible — BR-HM-035 hostel-specific targeting enforced"
+
+
+  # ===========================================================================
+  # WF-111: REPORTING WORKFLOW
+  # ===========================================================================
+
+  - id: "HM-WF-111"
+    title: "Report Generation, Submission, and Review"
+    description: "Warden/Caretaker generates report → Reviews accuracy → Warden submits to Super Admin → Super Admin reviews → Approve/Request revision → Download"
+
+    e2e_tests:
+      - scenario: "Warden generates report, submits to Super Admin, Super Admin approves and downloads PDF"
+        expected_final_state: "Report status='Approved', PDF downloaded, report archived with access logs"
+      - scenario: "Super Admin requests clarification, Warden revises and resubmits"
+        expected_final_state: "Report status='Needs Revision' then 'Submitted' again after Warden updates"
+
+    negative_tests:
+      - scenario: "Caretaker tries to submit report directly to Super Admin"
+        expected_final_state: "Submission denied — BR-HM-045 Caretakers submit to Warden only"
+      - scenario: "Student tries to generate a report"
+        expected_final_state: "Action denied — BR-HM-040 insufficient permissions"
+
+
+  # ===========================================================================
+  # WF-112: GUEST ROOM BOOKING WORKFLOW
+  # ===========================================================================
+
+  - id: "HM-WF-112"
+    title: "Guest Room Booking, Check-in, and Check-out"
+    description: "Student requests guest room → System checks availability → Caretaker approves/rejects → Guest check-in with ID verification → Guest check-out with room inspection → Damages handled"
+
+    e2e_tests:
+      - scenario: "Student books guest room, Caretaker approves, guest checks in, clean check-out"
+        expected_final_state: "Booking status='Completed', room released as 'Available', no damages, ID details logged"
+      - scenario: "Student books, Caretaker approves, damages found at check-out, fine imposed"
+        expected_final_state: "Booking status='Completed with Damages', fine created and linked to student, room released"
+
+    negative_tests:
+      - scenario: "Student with 3 active bookings requests another"
+        expected_final_state: "Booking rejected — BR-HM-051 max 3 active bookings"
+      - scenario: "Guest check-in attempted without ID verification"
+        expected_final_state: "Check-in denied — BR-HM-056 identity verification required"
+      - scenario: "Student books guest room for tomorrow (1-day advance)"
+        expected_final_state: "Booking rejected — BR-HM-054 minimum 2 days advance required"
+
+
+  # ===========================================================================
+  # WF-113: EXTENDED STAY WORKFLOW
+  # ===========================================================================
+
+  - id: "HM-WF-113"
+    title: "Extended Stay Application, Approval, and Operations"
+    description: "Student applies with faculty authorization → Staff reviews & approves/rejects → System reserves room & calculates charges → Payment verified → Services coordinated → Presence monitored → Stay completed"
+
+    e2e_tests:
+      - scenario: "Student applies, staff approves, payment made, stay completed without violations"
+        expected_final_state: "Extended stay status='Completed', charges paid, room released, completion report generated"
+      - scenario: "Student applies, staff rejects due to invalid authorization"
+        expected_final_state: "Application status='Rejected', Student notified with reason, may appeal to Warden"
+
+    negative_tests:
+      - scenario: "Student on academic probation applies for extended stay"
+        expected_final_state: "Application rejected — BR-HM-061 good academic standing required"
+      - scenario: "Student fails to pay by deadline"
+        expected_final_state: "Approval auto-revoked per BR-HM-073, room reservation cancelled"
+      - scenario: "Extended stay dates outside vacation period"
+        expected_final_state: "Application rejected — BR-HM-062 dates must be within vacation period"
+      - scenario: "Major rule violation during stay"
+        expected_final_state: "Stay terminated, Student asked to vacate, violation recorded, future eligibility affected"

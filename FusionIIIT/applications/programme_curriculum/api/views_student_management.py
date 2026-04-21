@@ -4268,7 +4268,6 @@ def sync_batch_data(request):
         ).order_by('year', 'discipline__name')
         
         sync_results = []
-        
         for batch in all_batches:
             # Use centralized filled seats calculation function
             actual_filled = calculate_batch_filled_seats(batch)
@@ -4290,6 +4289,16 @@ def sync_batch_data(request):
 
             curriculum_display = get_batch_curriculum_display(batch)
             
+            # Determine programme level (UG/PG/PhD) from batch name
+            programme_level = 'UG'  # Default
+            programme_name = batch.name.upper()
+            if programme_name.startswith('M.'):
+                programme_level = 'PG'
+            elif 'PHD' in programme_name or 'PhD' in batch.name:
+                programme_level = 'PhD'
+            elif 'B.' in batch.name:
+                programme_level = 'UG'
+            
             sync_results.append({
                 'batch_id': batch.id,
                 'name': batch.name,
@@ -4299,6 +4308,8 @@ def sync_batch_data(request):
                 'total_seats': batch.total_seats,
                 'filled_seats': actual_filled,
                 'available_seats': available_seats,
+                'student_count': actual_filled,
+                'programme_level': programme_level,
                 'curriculum': curriculum_display,
                 'curriculum_display': curriculum_display,
                 'curriculum_id': batch.curriculum.id if batch.curriculum else None,
