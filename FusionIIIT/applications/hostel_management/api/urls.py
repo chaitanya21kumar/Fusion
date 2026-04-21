@@ -174,6 +174,20 @@ extended_stay_patterns = [
 ]
 
 # ══════════════════════════════════════════════════════════════
+# SECURITY MANAGEMENT ROUTES (NEW)
+# ══════════════════════════════════════════════════════════════
+security_patterns = [
+    path('guards/', views.ListGuardsView.as_view(), name='security-guards'),
+    path('guards/<int:pk>/', views.SecurityGuardDetailView.as_view(), name='security-guard-detail'),
+    path('shifts/', views.ListShiftsView.as_view(), name='security-shifts'),
+    path('shifts/create/', views.CreateShiftView.as_view(), name='security-shift-create'),
+    path('shifts/<int:pk>/', views.UpdateShiftView.as_view(), name='security-shift-update'),
+    path('shifts/<int:pk>/delete/', views.DeleteShiftView.as_view(), name='security-shift-delete'),
+    path('status/', views.SecurityStatusDashboardView.as_view(), name='security-status'),
+    path('logs/', views.ShiftAuditLogsView.as_view(), name='security-logs'),
+]
+
+# ══════════════════════════════════════════════════════════════
 # MAIN URL PATTERNS - Namespace organization
 # ══════════════════════════════════════════════════════════════
 urlpatterns = [
@@ -191,4 +205,5 @@ urlpatterns = [
     path('attendance/', include((attendance_patterns, 'attendance'))),
     path('vacations/', include((vacation_patterns, 'vacations'))),
     path('extended-stays/', include((extended_stay_patterns, 'extended-stays'))),
+    path('security/', include((security_patterns, 'security'))),
 ]

@@ -6,7 +6,7 @@ These enforce role-based access control across all hostel setup endpoints.
 """
 
 from rest_framework.permissions import BasePermission
-from .models import HostelStaffAssignment
+from .models import SecurityGuard, GuardShift
 from . import selectors
 
 
@@ -109,3 +109,38 @@ class HasActiveHostelAllotment(BasePermission):
              return False
              
         return RoomAllotment.objects.filter(student=student, is_active=True).exists()
+
+
+class IsWarden(BasePermission):
+    """
+    Permission Check for Warden role.
+    Wardens have full CRUD on security personnel and shifts for their assigned hostels.
+    Super Admins also pass this check.
+    """
+    message = "Only assigned Wardens or Super Admins can manage security operations."
+
+    def has_permission(self, request, view):
+        if not (request.user and request.user.is_authenticated):
+            return False
+        if request.user.is_superuser:
+            return True
+        return selectors.is_user_warden(request.user)
+
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_superuser:
+            return True
+        
+        if not selectors.is_user_warden(request.user):
+            return False
+
+        # Guard scoping
+        if isinstance(obj, SecurityGuard):
+            assigned_hostels = selectors.list_assigned_hostels(request.user)
+            return assigned_hostels.filter(hall_id=obj.hostel_id).exists()
+        
+        # Shift scoping
+        if isinstance(obj, GuardShift):
+            assigned_hostels = selectors.list_assigned_hostels(request.user)
+            return assigned_hostels.filter(hall_id=obj.hostel_id).exists()
+
+        return False

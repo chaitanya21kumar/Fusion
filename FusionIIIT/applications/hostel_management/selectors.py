@@ -18,22 +18,22 @@ from django.utils import timezone
 from datetime import timedelta
 
 from .models import (
-    LeaveRequest, StudentAttendanceRecord, AttendanceStatus,
-    HostelComplaint, RoomAllocationChange,
-    HostelFine, StaffSchedule, HostelInventory,
-    HostelNoticeBoard, GuestRoom, GuestRoomBooking,
-    HostelTransactionHistory, WorkerReport,
-    Hall, HallWarden, HallCaretaker, StudentDetails,
-    LeaveStatusChoices, ComplaintStatusChoices, ComplaintPriorityChoices,
-    FineStatusChoices, BookingStatusChoices,
-    AccommodationApplicationWindow, AccommodationRequest, RoomAllotment,
-    HostelTypeChoices, RoomTypeChoices,
+    LeaveRequest, StudentAttendanceRecord, HostelComplaint,
+    RoomAllocationChange, HostelFine,
+    StaffSchedule, HostelInventory, HostelNoticeBoard,
+    GuestRoom, GuestRoomBooking, HostelTransactionHistory,
+    WorkerReport, HallWarden,
+    HallCaretaker, StudentDetails, LeaveStatusChoices, ComplaintStatusChoices,
+    ComplaintPriorityChoices, FineStatusChoices, AccommodationApplicationWindow,
+    AccommodationRequest, RoomAllotment,
     Hostel, Room, HostelStaffAssignment,
-    InventoryItem, InventoryDiscrepancy, InventoryAuditLog, ResourceRequest,
-    ResourceRequestStatus, Notice, NoticeReadStatus, NoticeStatus
+    InventoryItem, InventoryDiscrepancy,
+    InventoryAuditLog, ResourceRequest, Notice,
+    NoticeReadStatus, NoticeStatus, SecurityGuard, GuardShift,
+    ShiftScheduleLog
 )
 from applications.academic_information.models import Student
-from applications.globals.models import Staff, Faculty
+from applications.globals.models import Staff
 
 
 def get_student_by_roll(roll_number):
@@ -804,6 +804,82 @@ def list_low_stock_inventory(hall_id, threshold=5):
     ).order_by('quantity')
 
 
+# ══════════════════════════════════════════════════════════════
+# SECURITY MANAGEMENT QUERIES
+# ══════════════════════════════════════════════════════════════
+
+def list_security_guards(is_active=True):
+    """List all security guards."""
+    return SecurityGuard.objects.filter(is_active=is_active)
+
+
+def get_security_guard(guard_id):
+    """Fetch a security guard by ID."""
+    return SecurityGuard.objects.filter(id=guard_id).first()
+
+
+def list_guard_shifts(hostel_id=None, date=None, guard_id=None):
+    """
+    List guard shifts with optional filtering.
+    """
+    qs = GuardShift.objects.all().select_related('guard', 'hostel', 'assigned_by')
+    if hostel_id:
+        qs = qs.filter(hostel_id=hostel_id)
+    if date:
+        qs = qs.filter(date=date)
+    if guard_id:
+        qs = qs.filter(guard_id=guard_id)
+    return qs
+
+
+def check_guard_shift_conflict(guard_id, date, start_time, end_time, exclude_id=None):
+    """
+    Checks if a guard has an overlapping shift on a given date.
+    Returns True if conflict exists, False otherwise.
+    BR-HM-016.a Enforcement Helper.
+    """
+    overlap_qs = GuardShift.objects.filter(
+        guard_id=guard_id,
+        date=date
+    ).filter(
+        Q(start_time__lt=end_time, end_time__gt=start_time)
+    )
+    
+    if exclude_id:
+        overlap_qs = overlap_qs.exclude(id=exclude_id)
+        
+    return overlap_qs.exists()
+
+
+def list_shift_audit_logs(hostel_id=None):
+    """List immutable shift schedule logs."""
+    qs = ShiftScheduleLog.objects.all().select_related('guard', 'hostel', 'performed_by')
+    if hostel_id:
+        qs = qs.filter(hostel_id=hostel_id)
+    return qs
+
+
+def get_security_deployment_summary(hostel_id, date=None):
+    """
+    Aggregates current deployment data for the dashboard.
+    """
+    if not date:
+        date = timezone.now().date()
+        
+    shifts = list_guard_shifts(hostel_id=hostel_id, date=date)
+    
+    # Filter guards by hostel to show unassigned guards FOR THIS HOSTEL
+    total_guards = SecurityGuard.objects.filter(hostel_id=hostel_id, is_active=True).count()
+    assigned_count = shifts.values('guard').distinct().count()
+    
+    return {
+        'total_shifts': shifts.count(),
+        'assigned_guards': assigned_count,
+        'unassigned_guards': max(0, total_guards - assigned_count),
+        'shifts_by_type': list(shifts.values('shift_type').annotate(count=Count('id')))
+    }
+
+
 def list_student_fines_by_status(student_id, status):
     """Get student fines filtered by status."""
     return HostelFine.objects.filter(
@@ -956,7 +1032,6 @@ def list_guest_bookings_scoped(user, filters=None):
     """
     List bookings based on user role and filters.
     """
-    from .models import BookingStatusChoices
     
     if user.is_superuser:
         queryset = GuestRoomBooking.objects.all()
@@ -1249,19 +1324,23 @@ def get_student_complaints(user):
     ).order_by('-created_at')
 
 
-def list_student_fines(user):
+def list_student_fines(user, status=None):
     """List all fines for a specific student."""
     student = get_student(user.id)
     if not student:
         return HostelFine.objects.none()
-    return HostelFine.objects.filter(student=student).select_related(
+    queryset = HostelFine.objects.filter(student=student).select_related(
         'student__id__user', 
         'hostel', 
         'imposed_by'
     ).prefetch_related('extra_details').order_by('-imposed_date')
+    
+    if status:
+        queryset = queryset.filter(status=status)
+    return queryset
 
 
-def list_hostel_fines(hall_ids=None):
+def list_hostel_fines(hall_ids=None, status=None):
     """List fines for specific hostels or all if none provided."""
     queryset = HostelFine.objects.all().select_related(
         'student__id__user', 
@@ -1271,6 +1350,9 @@ def list_hostel_fines(hall_ids=None):
     
     if hall_ids is not None:
         queryset = queryset.filter(hostel__hall_id__in=hall_ids)
+    
+    if status:
+        queryset = queryset.filter(status=status)
     return queryset
 
 
@@ -1546,3 +1628,51 @@ def get_notice_read_status(notice_id, user):
 def get_notice_read_count(notice_id):
     """Get total number of students who read a notice."""
     return NoticeReadStatus.objects.filter(notice_id=notice_id).count()
+
+
+# ══════════════════════════════════════════════════════════════
+# SECURITY MANAGEMENT SELECTORS
+# ══════════════════════════════════════════════════════════════
+
+def list_security_guards(hostel_ids=None):
+    """
+    List security guards. 
+    Warden/Caretaker only sees guards for their assigned hostels.
+    """
+    queryset = SecurityGuard.objects.all()
+    if hostel_ids:
+        queryset = queryset.filter(hostel_id__in=hostel_ids)
+    return queryset.order_by('name')
+
+
+def list_guard_shifts(hostel_id=None, date=None):
+    """List guard shifts, optionally filtered by hostel and date."""
+    queryset = GuardShift.objects.all().select_related('guard', 'hostel', 'assigned_by')
+    if hostel_id:
+        queryset = queryset.filter(hostel_id=hostel_id)
+    if date:
+        queryset = queryset.filter(date=date)
+    return queryset.order_by('date', 'start_time')
+
+
+def get_guard_conflict(guard_id, date, start_time, end_time, exclude_shift_id=None):
+    """Check for overlapping shifts for a guard (BR-HM-016.a)."""
+    queryset = GuardShift.objects.filter(
+        guard_id=guard_id,
+        date=date,
+        start_time__lt=end_time,
+        end_time__gt=start_time
+    )
+    if exclude_shift_id:
+        queryset = queryset.exclude(id=exclude_shift_id)
+    return queryset.first()
+
+
+
+
+def list_shift_audit_logs(hostel_id=None):
+    """List immutable shift audit logs scoped by hostel."""
+    queryset = ShiftScheduleLog.objects.all().select_related('hostel', 'guard', 'performed_by')
+    if hostel_id:
+        queryset = queryset.filter(hostel_id=hostel_id)
+    return queryset.order_by('-timestamp')

@@ -140,7 +140,7 @@ def auth_view(request):
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def notification(request):
-    notifications=serializers.NotificationSerializer(request.user.notifications.all(),many=True).data
+    notifications=serializers.NotificationSerializer(request.user.notifications.filter(deleted=False),many=True).data
 
     resp={
         'notifications':notifications, 

@@ -8,7 +8,6 @@ Used for business logic validation and error handling.
 
 class HostelManagementException(Exception):
     """Base exception for hostel management module."""
-    pass
 
 
 # ══════════════════════════════════════════════════════════════
@@ -17,12 +16,10 @@ class HostelManagementException(Exception):
 
 class LeaveEligibilityError(HostelManagementException):
     """Raised when student is not eligible to apply for leave."""
-    pass
 
 
 class LeaveDateValidationError(HostelManagementException):
     """Raised when leave dates are invalid."""
-    pass
 
 
 # ══════════════════════════════════════════════════════════════
@@ -31,7 +28,6 @@ class LeaveDateValidationError(HostelManagementException):
 
 class ComplaintError(HostelManagementException):
     """Raised when there's an error in complaint management."""
-    pass
 
 
 # ══════════════════════════════════════════════════════════════
@@ -40,12 +36,10 @@ class ComplaintError(HostelManagementException):
 
 class RoomAllocationError(HostelManagementException):
     """Raised when there's an error in room allocation."""
-    pass
 
 
 class RoomChangeError(HostelManagementException):
     """Raised when there's an error in room change process."""
-    pass
 
 
 # ══════════════════════════════════════════════════════════════
@@ -54,7 +48,6 @@ class RoomChangeError(HostelManagementException):
 
 class FineError(HostelManagementException):
     """Raised when there's an error in fine management."""
-    pass
 
 
 # ══════════════════════════════════════════════════════════════
@@ -63,7 +56,6 @@ class FineError(HostelManagementException):
 
 class InventoryError(HostelManagementException):
     """Raised when there's an error in inventory management."""
-    pass
 
 
 # ══════════════════════════════════════════════════════════════
@@ -72,7 +64,6 @@ class InventoryError(HostelManagementException):
 
 class NoticeBoardError(HostelManagementException):
     """Raised when there's an error in notice board management."""
-    pass
 
 
 # ══════════════════════════════════════════════════════════════
@@ -81,4 +72,3 @@ class NoticeBoardError(HostelManagementException):
 
 class GuestRoomBookingError(HostelManagementException):
     """Raised when there's an error in guest room booking."""
-    pass

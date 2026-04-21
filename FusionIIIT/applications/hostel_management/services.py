@@ -14,15 +14,16 @@ from decimal import Decimal
 from .models import (
     LeaveRequest, StudentAttendanceRecord, AttendanceStatus,
     HostelComplaint, RoomAllocationChange,
-    HostelFine, StaffSchedule, HostelInventory, HostelNoticeBoard,
-    GuestRoomBooking, GuestRoom, Hostel, Room, RoomAllotment,
-    HostelStaffAssignment, HostelAuditLog,
-    AccommodationApplicationWindow, AccommodationRequest,
-    StaffRoleChoices, RoomSetupStatusChoices,
-    ComplaintHistory, ComplaintCategoryChoices, ComplaintStatusChoices,
+    HostelFine, GuestRoomBooking, GuestRoom, Hostel,
+    Room, RoomAllotment, HostelStaffAssignment, HostelAuditLog, AccommodationApplicationWindow,
+    AccommodationRequest, StaffRoleChoices,
+    RoomSetupStatusChoices, ComplaintHistory,
+    ComplaintCategoryChoices, ComplaintStatusChoices,
     LeaveStatusChoices, FineStatusChoices, BookingStatusChoices,
     AllocationChangeStatusChoices, FineCategoryChoices, FineExtraDetail,
-    Notice, NoticeReadStatus, NoticeStatus, NoticePriority
+    Notice, NoticeReadStatus, NoticeStatus,
+    NoticePriority, SecurityGuard, GuardShift, ShiftScheduleLog,
+    ShiftActionChoices
 )
 from notifications.signals import notify
 from django.db import transaction
@@ -36,92 +37,74 @@ from . import selectors
 
 class HostelManagementException(Exception):
     """Base exception for hostel management errors."""
-    pass
 
 
 class LeaveEligibilityError(HostelManagementException):
     """Raised when leave eligibility is not met (BR-HM-101)."""
-    pass
 
 
 class LeaveDateError(HostelManagementException):
     """Raised when leave dates are invalid (BR-HM-102)."""
-    pass
 
 
 class LeaveJustificationError(HostelManagementException):
     """Raised when leave lacks justification (BR-HM-103)."""
-    pass
 
 
 class LeaveAuthorityError(HostelManagementException):
     """Raised when leave decision maker lacks authority (BR-HM-104)."""
-    pass
 
 
 class FineValidationError(HostelManagementException):
     """Raised when fine parameters violate business rules (BR-HM-013)."""
-    pass
 
 
 class ComplaintEligibilityError(HostelManagementException):
     """Raised when complaint eligibility is not met (BR-HM-106)."""
-    pass
 
 
 class ComplaintRoutingError(HostelManagementException):
     """Raised when complaint routing fails (BR-HM-107)."""
-    pass
 
 
 class ResolutionRemarksError(HostelManagementException):
     """Raised when resolution remarks are missing (BR-HM-108)."""
-    pass
 
 
 class EscalationAuthorizationError(HostelManagementException):
     """Raised when escalation is not authorized (BR-HM-109)."""
-    pass
 
 
 class WardenAuthorityError(HostelManagementException):
     """Raised when warden authority is required (BR-HM-110)."""
-    pass
 
 
 class ApplicationWindowError(HostelManagementException):
     """Raised when application window is closed (BR-HM-111)."""
-    pass
 
 
 class AllotmentCapacityError(HostelManagementException):
     """Raised when room capacity would be exceeded (BR-HM-112)."""
-    pass
 
 
 class RoomChangeEligibilityError(HostelManagementException):
     """Raised when student is not eligible for room change (BR-HM-115)."""
-    pass
 
 
 class DualApprovalError(HostelManagementException):
     """Raised when dual approval requirement is not met (BR-HM-116)."""
-    pass
 
 
 class OccupancyReconciliationError(HostelManagementException):
     """Raised when occupancy reconciliation fails (BR-HM-117)."""
-    pass
 
 
 class RoomVacationPrerequisiteError(HostelManagementException):
     """Raised when room vacation prerequisites are not met (BR-015)."""
-    pass
 
 
 class FineValidationError(HostelManagementException):
     """Raised when fine validation fails (BR-HM-013)."""
-    pass
 
 
 # ══════════════════════════════════════════════════════════════
@@ -130,19 +113,23 @@ class FineValidationError(HostelManagementException):
 
 class GuestRoomBookingError(HostelManagementException):
     """Base exception for guest room booking errors."""
-    pass
 
 class GuestRoomAvailabilityError(GuestRoomBookingError):
     """Raised when room is not available for requested dates."""
-    pass
 
 class GuestRoomPolicyError(GuestRoomBookingError):
     """Raised when booking violates hostel policies."""
-    pass
 
 class GuestRoomInspectionError(GuestRoomBookingError):
     """Raised during check-out if inspection fails."""
-    pass
+
+
+class GuardShiftConflictError(HostelManagementException):
+    """Raised when shift timing overlaps with existing shifts (BR-HM-016.a)."""
+
+
+class GuardPolicyError(HostelManagementException):
+    """Raised when safety policies (rest periods, etc.) are violated."""
 
 
 # ══════════════════════════════════════════════════════════════
@@ -199,6 +186,21 @@ def create_leave_request(student, start_date, end_date, reason, documents=None):
         status=LeaveStatusChoices.PENDING
     )
     
+    # Notify Caretaker
+    try:
+        caretaker = selectors.get_hostel_caretaker(current_allotment.hostel.hall_id)
+        if caretaker:
+            notify.send(
+                sender=student.id.user,
+                recipient=caretaker.user,
+                verb="submitted a leave request",
+                action_object=leave,
+                description=f"Student {student} has requested leave from {start_date} to {end_date}.",
+                data={"module": "Hostel Management", "url": "hostel-management/leave/"}
+            )
+    except Exception as e:
+        print(f"DEBUG: Notification failed: {e}")
+
     return leave
 
 
@@ -239,7 +241,8 @@ def approve_leave(leave_id, decided_by, remarks=None):
         recipient=leave.student.id.user,
         verb="approved your leave request",
         action_object=leave,
-        description=f"Your leave from {leave.start_date} to {leave.end_date} has been approved."
+        description=f"Your leave from {leave.start_date} to {leave.end_date} has been approved.",
+        data={"module": "Hostel Management", "url": "hostel-management/leave/"}
     )
     
     return leave
@@ -271,7 +274,8 @@ def reject_leave(leave_id, decided_by, rejection_reason):
         recipient=leave.student.id.user,
         verb="rejected your leave request",
         action_object=leave,
-        description=f"Your leave from {leave.start_date} to {leave.end_date} has been rejected. Reason: {rejection_reason}"
+        description=f"Your leave from {leave.start_date} to {leave.end_date} has been rejected. Reason: {rejection_reason}",
+        data={"module": "Hostel Management", "url": "hostel-management/leave/"}
     )
     
     return leave
@@ -292,6 +296,20 @@ def cancel_leave(leave_id):
     leave.updated_at = timezone.now()
     leave.save()
     
+    # Notify Staff who approved (if applicable)
+    if leave.decided_by:
+        try:
+            notify.send(
+                sender=leave.student.id.user,
+                recipient=leave.decided_by,
+                verb="cancelled their approved leave",
+                action_object=leave,
+                description=f"Student {leave.student} cancelled their approved leave ({leave.start_date} to {leave.end_date}).",
+                data={"module": "Hostel Management", "url": "hostel-management/leave/"}
+            )
+        except Exception as e:
+            print(f"DEBUG: Notification failed: {e}")
+
     return leave
 
 
@@ -469,10 +487,12 @@ def create_complaint(student, category, description, attachments=None):
             recipient=assigned_to_user,
             verb="new complaint assigned",
             action_object=complaint,
-            description=f"New {category} complaint {complaint.complaint_uid} submitted by {student}."
+            description=f"New {category} complaint {complaint.complaint_uid} submitted by {student}.",
+            data={"module": "Hostel Management", "url": "hostel-management/complaints/"}
         )
 
     return complaint
+
 
 def update_complaint_to_in_progress(complaint_id, staff_user, remarks=""):
     """Mark complaint as InProgress when staff starts working on it."""
@@ -489,6 +509,19 @@ def update_complaint_to_in_progress(complaint_id, staff_user, remarks=""):
         complaint.save()
         _log_complaint_history(complaint, staff_user, old_status, ComplaintStatusChoices.IN_PROGRESS, remarks)
     
+    # Notify student
+    try:
+        notify.send(
+            sender=staff_user,
+            recipient=complaint.student.id.user,
+            verb="started processing your complaint",
+            action_object=complaint,
+            description=f"Your complaint {complaint.complaint_uid} ({complaint.category}) is now being processed.",
+            data={"module": "Hostel Management", "url": "hostel-management/complaints/"}
+        )
+    except Exception as e:
+        print(f"DEBUG: Notification failed: {e}")
+
     return complaint
 
 def escalate_complaint(complaint_id, staff_user, reason):
@@ -499,6 +532,10 @@ def escalate_complaint(complaint_id, staff_user, reason):
     complaint = selectors.get_complaint(complaint_id)
     if not complaint:
         raise HostelManagementException("Complaint not found.")
+    
+    # BR-HM-111: Wardens cannot escalate further
+    if selectors.is_user_warden(staff_user):
+        raise WardenAuthorityError("Wardens cannot escalate complaints further. They are the final authority for resolution.")
     
     # BR-HM-109: Block if status is not InProgress
     if complaint.status != ComplaintStatusChoices.IN_PROGRESS:
@@ -521,7 +558,8 @@ def escalate_complaint(complaint_id, staff_user, reason):
         recipient=warden_asgn.user,
         verb="complaint escalated",
         action_object=complaint,
-        description=f"Complaint {complaint.complaint_uid} escalated by {staff_user.get_full_name()}."
+        description=f"Complaint {complaint.complaint_uid} escalated by {staff_user.get_full_name()}.",
+        data={"module": "Hostel Management", "url": "hostel-management/complaints/"}
     )
     
     return complaint
@@ -543,10 +581,18 @@ def resolve_complaint(complaint_id, resolver_user, resolution_remarks):
     if not resolution_remarks or len(resolution_remarks.strip()) < 10:
         raise ResolutionRemarksError("Resolution remarks are mandatory (min 10 chars).")
 
-    # BR-HM-110: Warden authority check
-    if complaint.status == ComplaintStatusChoices.ESCALATED:
-        if not selectors.is_user_warden(resolver_user):
-            raise WardenAuthorityError("Only a Warden can resolve escalated complaints.")
+    # BR-HM-110: Role-based authority separation
+    is_warden = selectors.is_user_warden(resolver_user)
+    is_caretaker = selectors.is_user_caretaker(resolver_user)
+
+    if is_warden:
+        if complaint.status != ComplaintStatusChoices.ESCALATED:
+            raise WardenAuthorityError("Wardens can only resolve complaints that have been escalated to them.")
+    elif is_caretaker:
+        if complaint.status != ComplaintStatusChoices.IN_PROGRESS:
+            raise HostelManagementException("Caretakers can only resolve complaints that are currently 'In Progress'.")
+    else:
+        raise HostelManagementException("Only authorized staff or wardens can resolve complaints.")
 
     old_status = complaint.status
     with transaction.atomic():
@@ -562,7 +608,8 @@ def resolve_complaint(complaint_id, resolver_user, resolution_remarks):
         recipient=complaint.student.id.user,
         verb="complaint resolved",
         action_object=complaint,
-        description=f"Your complaint {complaint.complaint_uid} has been resolved."
+        description=f"Your complaint {complaint.complaint_uid} has been resolved.",
+        data={"module": "Hostel Management", "url": "hostel-management/complaints/"}
     )
     
     return complaint
@@ -679,9 +726,18 @@ def perform_bulk_allotment(request_ids, allotted_by):
 
 
 def _trigger_allotment_notification(allotment):
-    """Placeholder for BR-HM-114: Mandatory Allotment Notification."""
-    # In a real system, this would queue a task or send a signal
-    print(f"NOTIFICATION: Student {allotment.student.id.user.username} allotted to {allotment.room.room_number}")
+    """Implementation of BR-HM-114: Mandatory Allotment Notification."""
+    try:
+        notify.send(
+            sender=allotment.allotted_by,
+            recipient=allotment.student.id.user,
+            verb="allotted a room to you",
+            action_object=allotment,
+            description=f"You have been successfully allotted room {allotment.room.room_number} in {allotment.hostel.name}.",
+            data={"module": "Hostel Management", "url": "hostel-management/room-allocation/"}
+        )
+    except Exception as e:
+        print(f"DEBUG: Allotment notification failed: {e}")
 
 
 # ══════════════════════════════════════════════════════════════
@@ -729,6 +785,21 @@ def request_room_change(student, current_room, requested_room, reason):
         status=AllocationChangeStatusChoices.REQUESTED
     )
     
+    # Notify Warden
+    try:
+        warden_asgn = selectors.get_hostel_warden(current_allocation.hostel.hall_id)
+        if warden_asgn:
+            notify.send(
+                sender=student.id.user,
+                recipient=warden_asgn.user,
+                verb="requested a room change",
+                action_object=change_request,
+                description=f"Student {student} has requested a change from {current_room} to {requested_room}.",
+                data={"module": "Hostel Management", "url": "hostel-management/room-allocation/changes/"}
+            )
+    except Exception as e:
+        print(f"DEBUG: Room change request notification failed: {e}")
+
     return change_request
 
 
@@ -754,6 +825,19 @@ def approve_room_change_warden(change_id, warden, remarks=None):
     change.warden_remarks = remarks
     change.save()
     
+    # Notify Student
+    try:
+        notify.send(
+            sender=warden.id.user,
+            recipient=change.student.id.user,
+            verb="provisionally approved your room change",
+            action_object=change,
+            description=f"Your room change request has been approved by the Warden. Final confirmation pending from Caretaker.",
+            data={"module": "Hostel Management", "url": "hostel-management/room-allocation/changes/"}
+        )
+    except Exception as e:
+        print(f"DEBUG: Warden approval notification failed: {e}")
+
     return change
 
 
@@ -846,6 +930,19 @@ def reject_room_change(change_id, rejection_reason):
     change.rejection_reason = rejection_reason
     change.save()
     
+    # Notify Student
+    try:
+        notify.send(
+            sender=change.student.id.user,
+            recipient=change.student.id.user,
+            verb="rejected your room change request",
+            action_object=change,
+            description=f"Your room change request was rejected. Reason: {rejection_reason}.",
+            data={"module": "Hostel Management", "url": "hostel-management/room-allocation/changes/"}
+        )
+    except Exception as e:
+        print(f"DEBUG: Room change rejection notification failed: {e}")
+
     return change
 
 
@@ -884,6 +981,19 @@ def issue_fine(student, hostel, fine_type, amount, reason, due_date, issued_by):
         issued_by=issued_by
     )
     
+    # Notify Student
+    try:
+        notify.send(
+            sender=issued_by,
+            recipient=student.id.user,
+            verb="imposed a fine on you",
+            action_object=fine,
+            description=f"A fine of ₹{amount} has been imposed for: {reason}. Due date: {due_date}.",
+            data={"module": "Hostel Management", "url": "hostel-management/fines/"}
+        )
+    except Exception as e:
+        print(f"DEBUG: Fine imposition notification failed: {e}")
+
     return fine
 
 
@@ -903,6 +1013,20 @@ def pay_fine(fine_id):
     fine.updated_at = timezone.now()
     fine.save()
     
+    # Notify Staff who issued (if applicable)
+    if fine.issued_by:
+        try:
+            notify.send(
+                sender=fine.student.id.user,
+                recipient=fine.issued_by,
+                verb="paid their hostel fine",
+                action_object=fine,
+                description=f"Student {fine.student} has paid the fine of ₹{fine.amount}.",
+                data={"module": "Hostel Management", "url": "hostel-management/fines/"}
+            )
+        except Exception as e:
+            print(f"DEBUG: Fine payment notification failed: {e}")
+
     return fine
 
 
@@ -927,6 +1051,19 @@ def waive_fine(fine_id, waived_by, waive_reason):
     fine.updated_at = timezone.now()
     fine.save()
     
+    # Notify Student
+    try:
+        notify.send(
+            sender=waived_by,
+            recipient=fine.student.id.user,
+            verb="waived your fine",
+            action_object=fine,
+            description=f"Your fine of ₹{fine.amount} has been waived. Reason: {waive_reason}.",
+            data={"module": "Hostel Management", "url": "hostel-management/fines/"}
+        )
+    except Exception as e:
+        print(f"DEBUG: Fine waiver notification failed: {e}")
+
     return fine
 
 
@@ -1180,15 +1317,18 @@ def allocate_batch_to_hostel(hostel, academic_batch):
 
 
 def send_room_change_notification(change_request):
-    """
-    Send notification for room change completion.
-    
-    Enforces:
-    - BR-HM-118: Mandatory Room Change Notification
-    """
-    # Placeholder for notification system integration
-    # This ensures BR-HM-118 compliance by documenting the requirement
-    pass
+    """Implementation of BR-HM-118: Mandatory Room Change Notification."""
+    try:
+        notify.send(
+            sender=change_request.approved_by_caretaker.id.user,
+            recipient=change_request.student.id.user,
+            verb="completed your room change",
+            action_object=change_request,
+            description=f"Your room change from {change_request.current_room.room_number} to {change_request.requested_room.room_number} is complete.",
+            data={"module": "Hostel Management", "url": "hostel-management/room-allocation/"}
+        )
+    except Exception as e:
+        print(f"DEBUG: Room change completion notification failed: {e}")
 
 
 # ══════════════════════════════════════════════════════════════
@@ -1310,16 +1450,6 @@ def rename_room_in_hall(room, new_room_number, new_block_number=None):
 def submit_leave_request(student, start_date, end_date, reason, destination=None, contact_phone=None):
     """Wrapper for create_leave_request — called by LeaveListCreateView."""
     return create_leave_request(student, start_date, end_date, reason, destination, contact_phone)
-
-
-
-
-def update_complaint(complaint_id, status=None, resolution_notes=None):
-    """Wrapper for update_complaint_status — called by ComplaintRetrieveUpdateView."""
-    if status:
-        return update_complaint_status(complaint_id, status, resolution_notes)
-    return selectors.get_complaint(complaint_id)
-
 
 
 
@@ -1844,7 +1974,8 @@ def impose_fine(student, hostel, imposed_by, category, amount, reason, evidence=
             recipient=student.id.user,
             verb="imposed a fine",
             target=fine,
-            description=f"A fine of ₹{amount} has been imposed for {category}."
+            description=f"A fine of ₹{amount} has been imposed for {category}.",
+            data={"module": "Hostel Management", "url": "hostel-management/fines/"}
         )
     except Exception as e:
         print(f"Notification failed: {e}")
@@ -1978,7 +2109,7 @@ def submit_resource_request(hostel_id, requester, request_type, category, item_n
     Submit resource procurement request (HM-UC-022).
     - BR-HM-030.a/b: Mandatory fields and quantity validation
     """
-    from .models import ResourceRequest, Hostel, ResourceRequestType
+    from .models import ResourceRequest, Hostel
     
     if not all([hostel_id, request_type, item_name, quantity, justification]):
         raise HostelManagementException("All fields (hostel, type, item, quantity, justification) are mandatory.")
@@ -2117,7 +2248,6 @@ def bulk_upload_inventory(hostel_id, excel_file, user):
                     item.current_quantity = curr_qty
                 item.save()
                 updated_count += 1
-                is_new = False
             else:
                 item = InventoryItem.objects.create(
                     hostel=hostel,
@@ -2129,7 +2259,6 @@ def bulk_upload_inventory(hostel_id, excel_file, user):
                     condition=InventoryCondition.GOOD
                 )
                 created_count += 1
-                is_new = True
 
             InventoryAuditLog.objects.create(
                 item=item,
@@ -2310,10 +2439,38 @@ def archive_expired_notices():
 def _trigger_urgent_notice_notification(notice):
     """
     Send push notification for urgent hostel notice.
-    Placeholder for notification engine integration.
+    Implementation of BR-HM-033.
     """
-    # Logic to identify students in target hostel and send notification
-    pass
+    from .models import RoomAllotment
+    
+    # Identify target users
+    if notice.hostel:
+        # Students in specific hostel
+        target_users = list(RoomAllotment.objects.filter(
+            hostel=notice.hostel, is_active=True
+        ).values_list('student__id__user', flat=True))
+    else:
+        # Global notice - limited to 100 students for performance if not using Celery
+        target_users = list(RoomAllotment.objects.filter(
+            is_active=True
+        ).values_list('student__id__user', flat=True)[:100])
+
+    try:
+        from django.contrib.auth.models import User
+        recipients = User.objects.filter(id__in=target_users)
+        
+        # Batch send
+        for recipient in recipients:
+            notify.send(
+                sender=notice.created_by,
+                recipient=recipient,
+                verb="posted an urgent notice",
+                action_object=notice,
+                description=f"URGENT: {notice.title}",
+                data={"module": "Hostel Management", "url": "hostel-management/notice-board/"}
+            )
+    except Exception as e:
+        print(f"DEBUG: Urgent notice notification failed: {e}")
 # ══════════════════════════════════════════════════════════════
 # HM-WF-112: GUEST ROOM SERVICES (CHUNK 12)
 # ══════════════════════════════════════════════════════════════
@@ -2420,6 +2577,21 @@ def create_guest_booking_service(student, hostel, guest_data, check_in_date, che
         status=BookingStatusChoices.PENDING
     )
     
+    # Notify Caretaker
+    try:
+        caretaker = selectors.get_hostel_caretaker(hostel.hall_id)
+        if caretaker:
+            notify.send(
+                sender=student.id.user,
+                recipient=caretaker.user,
+                verb="submitted a guest room booking request",
+                action_object=booking,
+                description=f"New guest room booking {booking_uid} requested by {student}.",
+                data={"module": "Hostel Management", "url": "hostel-management/guest-booking/"}
+            )
+    except Exception as e:
+        print(f"DEBUG: Guest room booking notification failed: {e}")
+
     return booking
 
 
@@ -2454,7 +2626,8 @@ def process_booking_decision_service(booking_id, caretaker_user, decision, remar
         recipient=booking.student.id.user,
         verb=f"{decision}d your guest room booking",
         action_object=booking,
-        description=f"Your booking {booking.booking_uid} has been {decision}d."
+        description=f"Your booking {booking.booking_uid} has been {decision}d.",
+        data={"module": "Hostel Management", "url": "hostel-management/guest-booking/"}
     )
     
     return booking
@@ -2710,3 +2883,159 @@ def process_bulk_hostel_vacation(hostel_ids, performed_by):
             )
 
     return affected_count
+
+
+# ══════════════════════════════════════════════════════════════
+# SECURITY MANAGEMENT SERVICES
+# ══════════════════════════════════════════════════════════════
+
+def register_security_guard(hostel=None, name=None, employee_id=None, contact=None, user=None, **kwargs):
+    """
+    Register a new security guard.
+    Warden registers guards for their own hostel.
+    """
+    if not hostel:
+         raise ValueError("Hostel is required for guard registration.")
+
+    return SecurityGuard.objects.create(
+        hostel=hostel,
+        name=name,
+        employee_id=employee_id,
+        contact=contact,
+        user=user,
+        **kwargs
+    )
+
+
+def create_guard_shift(assigned_by, guard, hostel, shift_type, date, start_time, end_time):
+    """
+    Assign a shift to a guard.
+    - BR-HM-016.a: Conflict Detection (overlaps)
+    - Immutable Audit Logging
+    """
+    # 1. Conflict Check
+    conflict = selectors.get_guard_conflict(guard.id, date, start_time, end_time)
+    if conflict:
+        raise GuardShiftConflictError(
+            f"Guard {guard.name} is already assigned to a shift ({conflict.shift_type}) at this time."
+        )
+
+    with transaction.atomic():
+        shift = GuardShift.objects.create(
+            guard=guard,
+            hostel=hostel,
+            shift_type=shift_type,
+            date=date,
+            start_time=start_time,
+            end_time=end_time,
+            assigned_by=assigned_by
+        )
+
+        _log_shift_action(
+            guard=guard,
+            hostel=hostel,
+            action=ShiftActionChoices.ASSIGNED,
+            performed_by=assigned_by,
+            detail_json={
+                "shift_id": shift.id,
+                "type": shift_type,
+                "date": str(date),
+                "start": str(start_time),
+                "end": str(end_time)
+            }
+        )
+
+    return shift
+
+
+def update_guard_shift(shift_id, performed_by, **kwargs):
+    """Update an existing shift with conflict re-validation."""
+    shift = GuardShift.objects.get(pk=shift_id)
+    
+    date = kwargs.get('date', shift.date)
+    start_time = kwargs.get('start_time', shift.start_time)
+    end_time = kwargs.get('end_time', shift.end_time)
+    
+    # Check conflict excluding itself
+    conflict = selectors.get_guard_conflict(shift.guard_id, date, start_time, end_time, exclude_shift_id=shift_id)
+    if conflict:
+        raise GuardShiftConflictError("Update failed: User has a conflicting shift at the new time.")
+
+    with transaction.atomic():
+        for field, value in kwargs.items():
+            setattr(shift, field, value)
+        shift.save()
+
+        _log_shift_action(
+            guard=shift.guard,
+            hostel=shift.hostel,
+            action=ShiftActionChoices.MODIFIED,
+            performed_by=performed_by,
+            detail_json={"shift_id": shift.id, "changes": kwargs}
+        )
+    
+    return shift
+
+
+def delete_guard_shift(shift_id, performed_by):
+    """Remove a shift and log the action."""
+    shift = GuardShift.objects.get(pk=shift_id)
+    with transaction.atomic():
+        _log_shift_action(
+            guard=shift.guard,
+            hostel=shift.hostel,
+            action=ShiftActionChoices.REMOVED,
+            performed_by=performed_by,
+            detail_json={"shift_id": shift_id, "type": shift.shift_type, "date": str(shift.date)}
+        )
+        shift.delete()
+
+
+def _log_shift_action(guard, hostel, action, performed_by, detail_json):
+    """Internal: Maintain immutable security audit trail."""
+    # Ensure guard info is preserved even if the record is later deleted
+    data = detail_json or {}
+    if guard:
+        data.update({
+            "guard_name": guard.name,
+            "guard_employee_id": guard.employee_id
+        })
+        
+    ShiftScheduleLog.objects.create(
+        guard=guard,
+        hostel=hostel,
+        action=action,
+        performed_by=performed_by,
+        detail_json=data
+    )
+
+
+def update_security_guard(guard_id, performed_by=None, **kwargs):
+    """Update security guard profile and log the action."""
+    guard = SecurityGuard.objects.get(pk=guard_id)
+    
+    # Track changed fields for logging
+    changes = {}
+    for field, value in kwargs.items():
+        if hasattr(guard, field) and field not in ['id', 'created_at', 'hostel']:
+            old_value = getattr(guard, field)
+            if old_value != value:
+                changes[field] = {"old": str(old_value), "new": str(value)}
+                setattr(guard, field, value)
+    
+    if changes:
+        with transaction.atomic():
+            guard.save()
+            _log_shift_action(
+                guard=guard,
+                hostel=guard.hostel,
+                action=ShiftActionChoices.MODIFIED,
+                performed_by=performed_by,
+                detail_json={"action": "Profile Update", "changes": changes}
+            )
+    return guard
+
+
+def delete_security_guard(guard_id):
+    """Remove a security guard from the registry."""
+    SecurityGuard.objects.filter(pk=guard_id).delete()
